@@ -6,7 +6,26 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { queryClient } from "./queryclient";
 
-const theme = createTheme({});
+const globalTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
+const theme = createTheme(
+  {
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none",
+          },
+        },
+      },
+    },
+  },
+  globalTheme
+);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
