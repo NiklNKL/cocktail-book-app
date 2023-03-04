@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import AppBar from "../components/AppBar/AppBar";
 import Toolbar from "../components/AppBar/ToolBar";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import SideBar from "./SideBar";
 
 const rightLink = {
   fontSize: 16,
@@ -27,12 +28,13 @@ function AppAppBar() {
     <div>
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: "space-between" }}>
+          <SideBar />
           <Box sx={{ flex: 1 }} />
           <Link
             variant="h6"
             underline="none"
             color="inherit"
-            href="/premium-themes/onepirate/"
+            href="/home"
             sx={{ fontSize: 24 }}
           >
             {"Smartinies Bar"}
