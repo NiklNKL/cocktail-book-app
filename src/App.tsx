@@ -7,7 +7,6 @@ function App() {
   return (
     <Box height="100vh">
       <AppAppBar />
-
       <Box
         justifyContent="center"
         alignItems="center"

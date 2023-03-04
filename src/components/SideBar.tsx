@@ -1,130 +1,129 @@
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-} from "@mui/material";
+import * as React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "./AppBar/ToolBar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import TuneIcon from "@mui/icons-material/Tune";
+import LiquorIcon from "@mui/icons-material/Liquor";
+import LocalBarIcon from "@mui/icons-material/LocalBar";
+import WineBarIcon from "@mui/icons-material/WineBar";
 
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+const drawerWidth = 240;
 
-function Copyright() {
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
+
+export default function PersistentDrawerLeft() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     height: '100vh',
-//   },
-//   image: {
-//     backgroundImage: 'url(https://source.unsplash.com/random)',
-//     backgroundRepeat: 'no-repeat',
-//     backgroundColor:
-//       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-//     backgroundSize: 'cover',
-//     backgroundPosition: 'center',
-//   },
-//   paper: {
-//     margin: theme.spacing(8, 4),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
-//   avatar: {
-//     margin: theme.spacing(1),
-//     backgroundColor: theme.palette.secondary.main,
-//   },
-//   form: {
-//     width: '100%', // Fix IE 11 issue.
-//     marginTop: theme.spacing(1),
-//   },
-//   submit: {
-//     margin: theme.spacing(3, 0, 2),
-//   },
-// }));
-
-export default function SignInSide() {
-  //   const classes = useStyles();
-
-  return (
-    <Grid container component="main">
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div>
-          <Avatar>{/* <LockOutlinedIcon /> */}</Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          {/* <form className={classes.form} noValidate> */}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            //   className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-          {/* </form> */}
-        </div>
-      </Grid>
-    </Grid>
+    <Box display="flex" alignItems="center">
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        onClick={handleDrawerOpen}
+        edge="start"
+      >
+        <MenuIcon fontSize="large" />
+      </IconButton>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {[
+            "Cocktails",
+            "Ingredients",
+            "Global Filters",
+            "Favorite Cocktails",
+          ].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {
+                    [
+                      <LocalBarIcon />,
+                      <LiquorIcon />,
+                      <TuneIcon />,
+                      <WineBarIcon />,
+                    ][index]
+                  }
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+      </Main>
+    </Box>
   );
 }
