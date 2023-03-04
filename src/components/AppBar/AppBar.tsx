@@ -1,5 +1,7 @@
-import { Box } from "@mui/material";
+import MuiAppBar, { AppBarProps } from "@mui/material/AppBar";
 
-export default function AppBar() {
-  return <Box></Box>;
+function AppBar(props: AppBarProps) {
+  return <MuiAppBar elevation={0} position="fixed" {...props} />;
 }
+
+export default AppBar;
