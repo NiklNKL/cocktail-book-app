@@ -14,17 +14,6 @@ const rightLink = {
   ml: 3,
 };
 
-// const [anchorEl, setAnchorEl] = React.useState(null);
-// const open = Boolean(anchorEl);
-
-// const handleMenu = (event) => {
-//   setAnchorEl(event.currentTarget);
-// };
-
-// const handleClose = () => {
-//   setAnchorEl(null);
-// };
-
 function AppAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -58,24 +47,26 @@ function AppAppBar() {
             >
               <AccountCircle />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              //   anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem>My Account</MenuItem>
-              <MenuItem>My Bar</MenuItem>
-            </Menu>
+            <Box>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem>My Account</MenuItem>
+                <MenuItem>My Bar</MenuItem>
+              </Menu>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>
