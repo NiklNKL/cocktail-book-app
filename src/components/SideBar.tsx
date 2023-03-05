@@ -16,6 +16,10 @@ import TuneIcon from "@mui/icons-material/Tune";
 import LiquorIcon from "@mui/icons-material/Liquor";
 import LocalBarIcon from "@mui/icons-material/LocalBar";
 import WineBarIcon from "@mui/icons-material/WineBar";
+import { useState } from "react";
+import axios from "axios";
+import { Button } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const drawerWidth = 240;
 
@@ -50,6 +54,36 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const [data, setData] = useState(null);
+
+  const handleButtonClickCocktails = async () => {
+    const response = await axios.get(
+      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
+    );
+    setData(response.data);
+  };
+
+  const handleButtonClickIngredients = async () => {
+    const response = await axios.get(
+      "https://api.smartinies.recipes/listIngredients?startAt=0"
+    );
+    setData(response.data);
+  };
+
+  const handleButtonClickFilters = async () => {
+    const response = await axios.get(
+      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
+    );
+    setData(response.data);
+  };
+
+  const handleButtonClickFavCocktails = async () => {
+    const response = await axios.get(
+      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
+    );
+    setData(response.data);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,30 +126,42 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {[
-            "Cocktails",
-            "Ingredients",
-            "Global Filters",
-            "Favorite Cocktails",
-          ].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {
-                    [
-                      <LocalBarIcon />,
-                      <LiquorIcon />,
-                      <TuneIcon />,
-                      <WineBarIcon />,
-                    ][index]
-                  }
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Button
+          variant="text"
+          onClick={handleButtonClickCocktails}
+          startIcon={<LocalBarIcon />}
+          color="inherit"
+          size="large"
+        >
+          {"Cocktails"}
+        </Button>
+        <Button
+          variant="text"
+          onClick={handleButtonClickIngredients}
+          startIcon={<LiquorIcon />}
+          color="inherit"
+          size="large"
+        >
+          {"Ingredients"}
+        </Button>
+        <Button
+          variant="text"
+          onClick={handleButtonClickFilters}
+          startIcon={<TuneIcon />}
+          color="inherit"
+          size="large"
+        >
+          {"Global Filters"}
+        </Button>
+        <Button
+          variant="text"
+          onClick={handleButtonClickFavCocktails}
+          startIcon={<FavoriteIcon />}
+          color="inherit"
+          size="large"
+        >
+          {"Favorite Cocktails"}
+        </Button>
         <Divider />
       </Drawer>
       <Main open={open}>
