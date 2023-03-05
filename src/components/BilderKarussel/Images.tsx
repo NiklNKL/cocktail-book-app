@@ -1,8 +1,48 @@
-import { Box, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
+import { useEffect, useState, useMemo, useRef } from "react";
+import { useDrinks } from "./ImageServer";
 
 export default function Images() {
+  const [currentMouseX, setCurrentMouseX] = useState(0);
+  const [startClickX, setStartClickX] = useState<number | null>(null);
+  const [currentScrollX, setCurrentScrollX] = useState(0);
+
+  useEffect(() => {
+    const update = (e: MouseEvent) => {
+      setCurrentMouseX(e.clientX);
+    };
+    const mouseDown = (e: MouseEvent) => {
+      setStartClickX(e.clientX);
+      setCurrentScrollX(scrollContainerRef.current.scrollLeft);
+    };
+    const mouseUp = () => {
+      setStartClickX(null);
+    };
+
+    window.addEventListener("mousedown", mouseDown);
+    window.addEventListener("mousemove", update);
+    window.addEventListener("mouseup", mouseUp);
+    return () => {
+      window.removeEventListener("mousemove", update);
+      window.removeEventListener("mousedown", mouseDown);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, []);
+  const scrollAmount = useMemo(() => {
+    if (startClickX == null) return 0;
+    return currentMouseX - startClickX;
+  }, [startClickX, currentMouseX]);
+
+  const scrollContainerRef = useRef<HTMLElement>(null!);
+  useEffect(() => {
+    if (!scrollAmount) return;
+    scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount;
+  }, [currentScrollX, scrollAmount]);
+
+  const { data: drinks = [], isLoading } = useDrinks({ search: "" });
+  if (isLoading) return <CircularProgress />;
   return (
     <Stack
       direction="row"
@@ -10,55 +50,13 @@ export default function Images() {
       overflow="auto"
       height={"70vh"}
       className="scroll"
+      ref={(ref: any) => {
+        scrollContainerRef.current = ref;
+      }}
     >
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg"
-        }
-        alt={"Mojito"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg"
-        }
-        alt={"Old Fashioned"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/qgdu971561574065.jpg"
-        }
-        alt={"Negroni"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/hbkfsh1589574990.jpg"
-        }
-        alt={"Whiskey Sour"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/6ck9yi1589574317.jpg"
-        }
-        alt={"Dry Martini"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg"
-        }
-        alt={"Daiquiri"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"
-        }
-        alt={"Margarita"}
-      />
-      <ImageBox
-        source={
-          "https://www.thecocktaildb.com/images/media/drink/nkwr4c1606770558.jpg"
-        }
-        alt={"Long Island Tea"}
-      />
+      {drinks.map((drink) => (
+        <ImageBox source={drink.imgsrc} alt={drink.name} key={drink.name} />
+      ))}
     </Stack>
   );
 }

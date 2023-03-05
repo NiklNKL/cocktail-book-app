@@ -9,6 +9,11 @@
   width: 60vh;
   transition: 0.5s ease;
   backface-visibility: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .middle {
@@ -23,7 +28,7 @@
 }
 
 .container:hover .image {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .container:hover .middle {
@@ -35,8 +40,30 @@
   font-size: 22px;
   padding: 16px 32px;
   position: relative;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .scroll::-webkit-scrollbar {
   display: none; /* Safari and Chrome browsers */
+}
+
+#image-track {
+  display: flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(0%, -50%);
+  user-select: none; /* -- Prevent image highlighting -- */
+}
+
+#image-track > .image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
 }
