@@ -95,11 +95,10 @@ export default function AppBarElement() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
         sx={{
           display: "flex",
           width: "100%",
-          height: "5%",
+          height: "8%",
           background: "transparent",
           boxShadow: "none",
         }}
