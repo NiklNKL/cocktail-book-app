@@ -118,7 +118,7 @@ export default function AppBarElement() {
               variant="h6"
               underline="none"
               color="inherit"
-              href="/home"
+              href="/"
               sx={{ fontSize: 24 }}
             >
               {"Smartinies Bar"}
