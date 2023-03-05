@@ -38,7 +38,7 @@ export default function Images() {
   const scrollContainerRef = useRef<HTMLElement>(null!);
   useEffect(() => {
     if (!scrollAmount) return;
-    scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount;
+    scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
   const { data: drinks = [], isLoading } = useDrinks({ search: "" });
