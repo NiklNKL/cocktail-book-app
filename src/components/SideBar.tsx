@@ -62,13 +62,13 @@ export default function PersistentDrawerLeft() {
   const [data, setData] = useState(null);
 
   const handleButtonClickCocktails = async () => {
-    const response = axios
-      .get(
-        "https://heavydrinking.herokuapp.com/random_list?startAt=0&numResults=5"
-      )
-      .then((response) => setData(response.data));
+    const response = await fetch(
+      "https://heavydrinking.herokuapp.com/random_list?startAt=0&numResults=5"
+    )
+      .then((response) => response.json())
+      .then((response) => setData(response));
     console.log("Hi");
-    console.log(data);
+    console.log(response);
     navigate("/allcocktails", { state: { data: data } });
   };
 

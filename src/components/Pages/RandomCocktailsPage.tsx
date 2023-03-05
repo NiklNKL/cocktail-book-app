@@ -1,29 +1,61 @@
-import { Box, Button, Grid, ImageList, ImageListItem } from "@mui/material";
+import { Box, ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import AppBarElement from "../AppBarElement";
 import { useLocation } from "react-router-dom";
-import { Key } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+  useState,
+} from "react";
 
-function CocktailList() {
-  const location = useLocation();
-  const data = location.state?.data;
+async function CocktailList() {
+  const [data, setData] = useState(null);
+
+  const response = await fetch(
+    "https://heavydrinking.herokuapp.com/random_list?startAt=0&numResults=5"
+  )
+    .then((response) => response.json())
+    .then((response) => setData(response));
 
   return (
     <Box height="100vh">
       <AppBarElement />
 
-      <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+      <ImageList sx={{ width: 500, height: 450 }}>
         {data.map(
           (item: {
-            id: Key | null | undefined;
+            img: Key | null | undefined;
             image: any;
-            cocktailName: string | undefined;
+            cocktailName:
+              | string
+              | number
+              | boolean
+              | ReactElement<any, string | JSXElementConstructor<any>>
+              | ReactFragment
+              | null
+              | undefined;
+            instructions:
+              | string
+              | number
+              | boolean
+              | ReactElement<any, string | JSXElementConstructor<any>>
+              | ReactFragment
+              | ReactPortal
+              | null
+              | undefined;
           }) => (
-            <ImageListItem key={item.id}>
+            <ImageListItem key={item.img}>
               <img
-                src={`${item.image}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.cocktailName}
+                src={`${item.image}?w=248&fit=crop&auto=format`}
+                srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 loading="lazy"
+              />
+              <ImageListItemBar
+                title={item.cocktailName}
+                subtitle={<span>Instructions: {item.instructions}</span>}
+                position="below"
               />
             </ImageListItem>
           )
