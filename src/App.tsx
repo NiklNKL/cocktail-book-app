@@ -1,7 +1,10 @@
-import CocktailList from "./components/Pages/CocktailList";
+import CocktailList from "./components/Pages/RandomCocktailsPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/Pages/HomePage";
 import DrinkPage from "./components/Pages/DrinkPage";
+import IngredientsPage from "./components/Pages/IngredientsPage";
+
+
 function App() {
   return (
     <Routes>
@@ -11,6 +14,8 @@ function App() {
         path="/cocktail/:name"
         element={<DrinkPage name={window.location.pathname.split("/")[2]} />}
       />
+      <Route path="/ingredients" element={<IngredientsPage />} />
+
     </Routes>
   );
 }
