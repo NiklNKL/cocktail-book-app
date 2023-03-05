@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import "./hover.css";
 
 export default function ImageBox({
@@ -14,6 +14,7 @@ export default function ImageBox({
 
       <Box className="middle">
         <Box className="text">{alt}</Box>
+        <Button href={"/cocktail/" + alt}>Details</Button>
       </Box>
     </Box>
   );
