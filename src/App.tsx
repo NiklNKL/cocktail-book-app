@@ -1,23 +1,13 @@
-import FilterDrawer from "./components/FilterDrawer";
-import { AppBar, Box, Button, Grid } from "@mui/material";
-import SignInSide from "./components/SideBar";
-import Images from "./components/BilderKarussel/Images";
-import AppBarElement from "./components/AppBarElement";
+import CocktailList from "./components/Pages/CocktailList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./components/Pages/HomePage";
 
 function App() {
   return (
-    <Box height="100vh">
-      <AppBarElement />
-      <Box
-        justifyContent="center"
-        alignItems="center"
-        display="flex"
-        paddingTop={"100px"}
-      >
-        <Images />
-      </Box>
-      <FilterDrawer />
-    </Box>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/allcocktails" element={<CocktailList />} />
+    </Routes>
   );
 }
 
