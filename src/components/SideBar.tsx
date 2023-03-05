@@ -20,7 +20,9 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CocktailList from "./Pages/CocktailList";
+import CocktailList from "./Pages/RandomCocktailsPage";
+import IngredientsPage from "./Pages/IngredientsPage";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -55,14 +57,19 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const [data, setData] = useState(null);
 
   const handleButtonClickCocktails = async () => {
-    const response = await axios.get(
-      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
-    );
-    setData(response.data);
+    const response = axios
+      .get(
+        "https://heavydrinking.herokuapp.com/random_list?startAt=0&numResults=5"
+      )
+      .then((response) => setData(response.data));
+    console.log("Hi");
+    console.log(data);
+    navigate("/allcocktails", { state: { data: data } });
   };
 
   const handleButtonClickIngredients = async () => {
@@ -70,6 +77,7 @@ export default function PersistentDrawerLeft() {
       "https://api.smartinies.recipes/listIngredients?startAt=0"
     );
     setData(response.data);
+    navigate("ingredients", { state: { data: response.data } });
   };
 
   const handleButtonClickFilters = async () => {
@@ -143,6 +151,7 @@ export default function PersistentDrawerLeft() {
           startIcon={<LiquorIcon />}
           color="inherit"
           size="large"
+          href="/ingredients"
         >
           {"Ingredients"}
         </Button>
