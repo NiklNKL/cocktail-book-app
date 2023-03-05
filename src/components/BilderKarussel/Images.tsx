@@ -1,14 +1,21 @@
 import { Box, Stack } from "@mui/material";
 import ImageBox from "./ImageBox";
+import "./hover.css";
 
 export default function Images() {
   return (
-    <Stack direction="row" spacing={2} overflow="auto" height={"50vh"}>
+    <Stack
+      direction="row"
+      spacing={2}
+      overflow="auto"
+      height={"70vh"}
+      className="scroll"
+    >
       <ImageBox
         source={
           "https://www.thecocktaildb.com/images/media/drink/metwgh1606770327.jpg"
         }
-        alt={"Mochito"}
+        alt={"Mojito"}
       />
       <ImageBox
         source={
@@ -33,6 +40,24 @@ export default function Images() {
           "https://www.thecocktaildb.com/images/media/drink/6ck9yi1589574317.jpg"
         }
         alt={"Dry Martini"}
+      />
+      <ImageBox
+        source={
+          "https://www.thecocktaildb.com/images/media/drink/mrz9091589574515.jpg"
+        }
+        alt={"Daiquiri"}
+      />
+      <ImageBox
+        source={
+          "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"
+        }
+        alt={"Margarita"}
+      />
+      <ImageBox
+        source={
+          "https://www.thecocktaildb.com/images/media/drink/nkwr4c1606770558.jpg"
+        }
+        alt={"Long Island Tea"}
       />
     </Stack>
   );
