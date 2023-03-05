@@ -12,6 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "./SideBar";
 import Link from "@mui/material/Link";
 import SearchBar from "./SearchBar";
+import LogInPage from "./LogInPage";
+import { Popover } from "@mui/material";
 
 export default function AppBarElement() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -40,7 +42,7 @@ export default function AppBarElement() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
+    <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "bottom",
@@ -55,9 +57,8 @@ export default function AppBarElement() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
+      <LogInPage />
+    </Popover>
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -95,11 +96,10 @@ export default function AppBarElement() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
         sx={{
           display: "flex",
           width: "100%",
-          height: "5%",
+          height: "8%",
           background: "transparent",
           boxShadow: "none",
         }}
@@ -118,7 +118,7 @@ export default function AppBarElement() {
               variant="h6"
               underline="none"
               color="inherit"
-              href="/home"
+              href="/"
               sx={{ fontSize: 24 }}
             >
               {"Smartinies Bar"}
