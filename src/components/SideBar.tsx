@@ -20,6 +20,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import CocktailList from "./Pages/CocktailList";
 
 const drawerWidth = 240;
 
@@ -132,6 +133,7 @@ export default function PersistentDrawerLeft() {
           startIcon={<LocalBarIcon />}
           color="inherit"
           size="large"
+          href="/allcocktails"
         >
           {"Cocktails"}
         </Button>
