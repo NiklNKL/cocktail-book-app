@@ -15,7 +15,7 @@ function App() {
         element={<DrinkPage name={window.location.pathname.split("/")[2]} />}
       />
       <Route path="/ingredients" element={<IngredientsPage />} />
-      <Route path="/search-results" element={<SearchResults />} />
+      <Route path="/search-results/:query" element={<SearchResults />} />
     </Routes>
   );
 }
