@@ -73,7 +73,7 @@ function Ingredients() {
                   <img src={item.image} loading="lazy" />
                   <ImageListItemBar
                     title={item.ingredientName}
-                    position="below"
+                    position="bottom"
                   />
                 </ImageListItem>
               )
