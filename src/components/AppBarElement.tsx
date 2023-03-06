@@ -104,12 +104,7 @@ export default function AppBarElement() {
           boxShadow: "none",
         }}
       >
-        <Toolbar
-          sx={{
-            justifyContent: "center",
-            marginBottom: "20px",
-          }}
-        >
+        <Toolbar sx={{ justifyContent: "center" }}>
           <SideBar />
           <SearchBar />
           <div
