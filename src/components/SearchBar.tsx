@@ -49,17 +49,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.smartinies.recipes/list?contains=${searchQuery}`
-      );
-      setSearchResults(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-    navigate("/search-results", { state: { data: searchResults } });
+  const handleSearch = () => {
+    navigate(`/search-results/${searchQuery}`);
   };
 
   return (
@@ -75,6 +66,7 @@ export default function PrimarySearchAppBar() {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               handleSearch();
+              window.location.reload();
             }
           }}
         />

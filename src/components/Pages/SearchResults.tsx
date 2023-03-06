@@ -1,11 +1,29 @@
 import { Box, Toolbar } from "@mui/material";
 import AppBarElement from "../AppBarElement";
-import { useLocation } from "react-router-dom";
 import ImageListForDrinks from "../ImageListForDrinks";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function SearchResults() {
-  const { state } = useLocation();
-  const { data } = state;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const pathName = window.location.pathname;
+        const drinkName = pathName.split("/").pop();
+        const response = await axios.get(
+          `https://api.smartinies.recipes/list?contains=${drinkName}`
+        );
+        //await new Promise((resolve) => setTimeout(resolve, 5000));
+        setData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <Box height="100vh">
