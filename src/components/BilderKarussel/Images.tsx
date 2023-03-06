@@ -48,14 +48,20 @@ export default function Images() {
       direction="row"
       spacing={2}
       overflow="auto"
-      height={"70vh"}
+      height={"85vh"}
       className="scroll"
+      alignItems="center"
       ref={(ref: any) => {
         scrollContainerRef.current = ref;
       }}
     >
       {drinks.map((drink) => (
-        <ImageBox source={drink.imgsrc} alt={drink.name} key={drink.name} />
+        <ImageBox
+          source={drink.imgsrc}
+          alt={drink.name}
+          key={drink.name}
+          position={currentMouseX}
+        />
       ))}
     </Stack>
   );

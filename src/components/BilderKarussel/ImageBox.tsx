@@ -4,9 +4,11 @@ import "./hover.css";
 export default function ImageBox({
   source,
   alt,
+  position,
 }: {
   source: string;
   alt: string;
+  position: number;
 }) {
   return (
     <Box className="container">
@@ -14,7 +16,10 @@ export default function ImageBox({
 
       <Box className="middle">
         <Box className="text">{alt}</Box>
-        <Button href={"/cocktail/" + alt}>Details</Button>
+        <Box className="button">
+          <Button href={"/cocktail/" + alt}>Details</Button>
+          {/* Check position: {position.toString()} */}
+        </Box>
       </Box>
     </Box>
   );
