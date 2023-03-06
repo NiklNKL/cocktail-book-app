@@ -1,12 +1,17 @@
 .container {
   position: relative;
-  width: 60vh;
+  width: 56vh;
+  margin-left: "20px";
+  margin-right: "20px";
 }
 
 .image {
   opacity: 1;
   display: auto;
-  width: 60vh;
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 50%;
   transition: 0.5s ease;
   backface-visibility: hidden;
   -webkit-user-select: none;
@@ -20,6 +25,7 @@
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
+  width: 40vmin;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -51,17 +57,14 @@
   display: none; /* Safari and Chrome browsers */
 }
 
-#image-track {
-  display: flex;
-  gap: 4vmin;
+.button {
+  transition: 0.5s ease;
+  margin-top: 50%;
   position: absolute;
-  transform: translate(0%, -50%);
-  user-select: none; /* -- Prevent image highlighting -- */
-}
-
-#image-track > .image {
   width: 40vmin;
-  height: 56vmin;
-  object-fit: cover;
-  object-position: 100% center;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
 }
