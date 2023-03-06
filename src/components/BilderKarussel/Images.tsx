@@ -1,7 +1,6 @@
 import { Box, CircularProgress, Stack } from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
-import "./Images2Style.css";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useDrinks } from "./ImageServer";
 
@@ -44,14 +43,14 @@ export default function Images() {
 
   const { data: drinks = [], isLoading } = useDrinks({ search: "" });
   if (isLoading) return <CircularProgress />;
-
   return (
     <Stack
       direction="row"
       spacing={2}
       overflow="auto"
-      height={"56vh"}
+      height={"85vh"}
       className="scroll"
+      alignItems="center"
       ref={(ref: any) => {
         scrollContainerRef.current = ref;
       }}
@@ -61,7 +60,7 @@ export default function Images() {
           source={drink.imgsrc}
           alt={drink.name}
           key={drink.name}
-          position={scrollAmount}
+          position={currentMouseX}
         />
       ))}
     </Stack>

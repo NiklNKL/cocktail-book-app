@@ -17,7 +17,8 @@ export default function ImageBox({
       <Box className="middle">
         <Box className="text">{alt}</Box>
         <Box className="button">
-          <Button href={"/cocktail/" + alt}>{position.toString()}</Button>
+          <Button href={"/cocktail/" + alt}>Details</Button>
+          {/* Check position: {position.toString()} */}
         </Box>
       </Box>
     </Box>
