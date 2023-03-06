@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import {
   IconButton,
   Divider,
@@ -21,11 +22,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
+  justifyContent: "center",
 }));
 
 export default function FilterDrawer() {
   const [open, setOpen] = useState(false);
+
+  const [isFirstChecked, setIsFirstChecked] = useState<boolean>(true);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsFirstChecked(event.target.name === "first");
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -36,8 +43,14 @@ export default function FilterDrawer() {
   };
 
   return (
-    <Box>
-      <Button onClick={handleDrawerOpen}>Open Filters</Button>
+    <Box display="flex" justifyContent="center" marginTop="20px">
+      <IconButton
+        sx={{ justifyContent: "center" }}
+        size="large"
+        onClick={handleDrawerOpen}
+      >
+        <ExpandLessIcon />
+      </IconButton>
       <Drawer
         sx={{
           width: "100%",
@@ -58,9 +71,34 @@ export default function FilterDrawer() {
           marginTop={"20px"}
           container
           spacing={3}
-          justifyContent="center"
-          alignItems="center"
+          justifyContent="space-evenly"
+          alignItems="flex-start"
         >
+          <Grid>
+            <h1>You like fun?</h1>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isFirstChecked}
+                    onChange={handleCheckboxChange}
+                    name="first"
+                  />
+                }
+                label="Yes (Alcohol)"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={!isFirstChecked}
+                    onChange={handleCheckboxChange}
+                    name="second"
+                  />
+                }
+                label="No, I'm boring"
+              />
+            </FormGroup>
+          </Grid>
           <Grid>
             <h1>Taste</h1>
             <FormGroup>

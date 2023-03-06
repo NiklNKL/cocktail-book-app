@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/Pages/HomePage";
 import DrinkPage from "./components/Pages/DrinkPage";
 import IngredientsPage from "./components/Pages/IngredientsPage";
-
+import SearchResults from "./components/Pages/SearchResults";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         element={<DrinkPage name={window.location.pathname.split("/")[2]} />}
       />
       <Route path="/ingredients" element={<IngredientsPage />} />
-
+      <Route path="/search-results" element={<SearchResults />} />
     </Routes>
   );
 }
