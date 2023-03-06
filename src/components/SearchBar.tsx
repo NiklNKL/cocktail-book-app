@@ -2,6 +2,9 @@ import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -44,15 +47,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = () => {
+    navigate(`/search-results/${searchQuery}`);
+  };
+
   return (
     <Box display="flex">
       <Search sx={{ marginRight: "23.5%" }}>
-        <SearchIconWrapper>
+        <SearchIconWrapper onClick={handleSearch}>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+              window.location.reload();
+            }
+          }}
         />
       </Search>
     </Box>
