@@ -61,25 +61,6 @@ export default function PersistentDrawerLeft() {
 
   const [data, setData] = useState(null);
 
-  const handleButtonClickCocktails = async () => {
-    const response = await fetch(
-      "https://heavydrinking.herokuapp.com/random_list?startAt=0&numResults=5"
-    )
-      .then((response) => response.json())
-      .then((response) => setData(response));
-    console.log("Hi");
-    console.log(response);
-    navigate("/allcocktails", { state: { data: data } });
-  };
-
-  const handleButtonClickIngredients = async () => {
-    const response = await axios.get(
-      "https://api.smartinies.recipes/listIngredients?startAt=0"
-    );
-    setData(response.data);
-    navigate("ingredients", { state: { data: response.data } });
-  };
-
   const handleButtonClickFilters = async () => {
     const response = await axios.get(
       "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
@@ -137,7 +118,6 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <Button
           variant="text"
-          onClick={handleButtonClickCocktails}
           startIcon={<LocalBarIcon />}
           color="inherit"
           size="large"
@@ -147,7 +127,6 @@ export default function PersistentDrawerLeft() {
         </Button>
         <Button
           variant="text"
-          onClick={handleButtonClickIngredients}
           startIcon={<LiquorIcon />}
           color="inherit"
           size="large"
