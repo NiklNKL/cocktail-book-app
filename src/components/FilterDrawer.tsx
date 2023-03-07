@@ -12,6 +12,10 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  FormControl,
+  FormLabel,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DropdownButton from "./DropdownButton";
@@ -76,28 +80,30 @@ export default function FilterDrawer() {
         >
           <Grid>
             <h1>You like fun?</h1>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isFirstChecked}
-                    onChange={handleCheckboxChange}
-                    name="first"
-                  />
-                }
-                label="Yes (Alcohol)"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={!isFirstChecked}
-                    onChange={handleCheckboxChange}
-                    name="second"
-                  />
-                }
-                label="No, I'm boring"
-              />
-            </FormGroup>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Select one option</FormLabel>
+              <RadioGroup
+                aria-label="options"
+                name="options"
+                //</FormControl>value={selectedValue} onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="option1"
+                  control={<Radio />}
+                  label="With Alcohol"
+                />
+                <FormControlLabel
+                  value="option2"
+                  control={<Radio />}
+                  label="Without Alcohol"
+                />
+                <FormControlLabel
+                  value="option3"
+                  control={<Radio />}
+                  label="I want all"
+                />
+              </RadioGroup>
+            </FormControl>
           </Grid>
           <Grid>
             <h1>Taste</h1>
