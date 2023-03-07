@@ -43,7 +43,13 @@ export default function FilterDrawer() {
   };
 
   return (
-    <Box display="flex" justifyContent="center" marginTop="20px">
+    <Box
+      display="flex"
+      justifyContent="center"
+      position="fixed"
+      bottom="0"
+      width="100%"
+    >
       <IconButton
         sx={{ justifyContent: "center" }}
         size="large"
