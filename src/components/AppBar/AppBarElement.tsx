@@ -12,8 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "./SideBar";
 import Link from "@mui/material/Link";
 import SearchBar from "./SearchBar";
-import LogInPage from "./CredentialComponents/LogInComponent";
-import CredentialComponent from "./CredentialComponents/CredentialPopup";
+import LogInPage from "../CredentialComponents/LogInComponent";
+import CredentialComponent from "../CredentialComponents/CredentialPopup";
 import { Popover } from "@mui/material";
 import { useState } from "react";
 
