@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "./SideBar";
 import Link from "@mui/material/Link";
 import SearchBar from "./SearchBar";
-import LogInPage from "./LogInPage";
+import LogInPage from "../LogInPage";
 import { Popover } from "@mui/material";
 
 export default function AppBarElement() {

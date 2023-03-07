@@ -1,5 +1,5 @@
 import { AppBar, Box, Button, Grid } from "@mui/material";
-import AppBarElement from "../AppBarElement";
+import AppBarElement from "../AppBar/AppBarElement";
 import { useDrinks } from "../BilderKarussel/ImageServer";
 
 export default function DrinkPage({ name }: { name: string }) {
