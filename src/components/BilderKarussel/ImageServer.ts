@@ -5,6 +5,7 @@ export interface DrinkSearchParams {
   search: string;
 }
 export interface Drink {
+  id: string;
   name: string;
   imgsrc: string;
 }
@@ -31,6 +32,7 @@ export async function listDrinks({ search }: DrinkSearchParams) {
     const drink: Drink = {
       name: item.cocktailName,
       imgsrc: item.image,
+      id: item.id,
     };
     drinks.push(drink);
   }

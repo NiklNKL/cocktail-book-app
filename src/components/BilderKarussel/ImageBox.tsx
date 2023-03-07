@@ -5,10 +5,12 @@ export default function ImageBox({
   source,
   alt,
   position,
+  id,
 }: {
   source: string;
   alt: string;
   position: number;
+  id: string;
 }) {
   return (
     <Box className="container">
@@ -17,7 +19,7 @@ export default function ImageBox({
       <Box className="middle">
         <Box className="text">{alt}</Box>
         <Box className="button">
-          <Button href={"/cocktail/" + alt}>Details</Button>
+          <Button href={"/cocktail/" + { id }}>Details</Button>
           {/* Check position: {position.toString()} */}
         </Box>
       </Box>
