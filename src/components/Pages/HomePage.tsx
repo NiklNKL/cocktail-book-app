@@ -12,7 +12,7 @@ function HomePage() {
         justifyContent="center"
         alignItems="center"
         display="flex"
-        paddingTop={"100px"}
+        paddingTop={"auto"}
       >
         <Images />
         {/* <ParallexEffect /> */}
