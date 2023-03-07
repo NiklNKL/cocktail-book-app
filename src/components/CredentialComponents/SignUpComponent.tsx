@@ -19,8 +19,11 @@ export default function SignUpPage() {
 
   const handleSignin = async () => {
     try {
-      const response = await axios.post("/signIn", { email, password, name });
-      localStorage.setItem("access_token", response.data.access_token);
+      const response = await axios.post(
+        "https://api.smartinies.recipes/signup",
+        { email, password }
+      );
+      //localStorage.setItem("access_token", response.data.access_token);
       // Redirect to the home page or a protected route
     } catch (error) {
       // Handle login error
@@ -45,7 +48,7 @@ export default function SignUpPage() {
                 type="name"
                 placeholder="Who are you?"
                 value={name}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) => setName(event.target.value)}
               />
             </FormControl>
           </Box>

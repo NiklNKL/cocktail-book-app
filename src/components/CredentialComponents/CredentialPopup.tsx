@@ -14,6 +14,7 @@ import { Box } from "@mui/material";
 import LogInPage from "./LogInComponent";
 import SignUpPage from "./SignUpComponent";
 import AccountPage from "./AccountComponent";
+import useToken from "./useToken";
 
 // function setToken({ userToken }: { userToken: any }) {
 //   sessionStorage.setItem("token", userToken);
@@ -26,12 +27,13 @@ import AccountPage from "./AccountComponent";
 // }
 export default function CredentialComponent() {
   const [showLogin, setShowLogin] = useState(true);
-  const [showAccount, setShowAccount] = useState(false);
+  const { token, setToken } = useToken();
 
-  //   const token = getToken();
-  const [token, setToken] = useState();
-
+  console.log("accessToken");
+  console.log(localStorage.getItem("access_token"));
   if (!token) {
+    console.log("token false");
+    console.log(token);
     return (
       <CssVarsProvider>
         <main>
@@ -69,6 +71,8 @@ export default function CredentialComponent() {
       </CssVarsProvider>
     );
   } else if (token) {
+    console.log("token true");
+    console.log(token);
     return (
       <CssVarsProvider>
         <main>

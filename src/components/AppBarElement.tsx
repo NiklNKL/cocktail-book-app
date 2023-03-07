@@ -15,6 +15,7 @@ import SearchBar from "./SearchBar";
 import LogInPage from "./CredentialComponents/LogInComponent";
 import CredentialComponent from "./CredentialComponents/CredentialPopup";
 import { Popover } from "@mui/material";
+import { useState } from "react";
 
 export default function AppBarElement() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -41,6 +42,14 @@ export default function AppBarElement() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const color = () => {
+    if (localStorage.getItem("access_token") == undefined) {
+      return "inherit";
+    } else {
+      return "success";
+    }
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Popover
@@ -59,7 +68,6 @@ export default function AppBarElement() {
       onClose={handleMenuClose}
     >
       <CredentialComponent />
-      {/* <LogInPage /> */}
     </Popover>
   );
 
@@ -135,7 +143,7 @@ export default function AppBarElement() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              color={color()}
             >
               <AccountCircle />
             </IconButton>
