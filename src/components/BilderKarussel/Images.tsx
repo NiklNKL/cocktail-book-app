@@ -8,10 +8,33 @@ export default function Images() {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
+  const imageWrapperRef = useRef<HTMLElement[]>([]);
+
+  const onScroll = () => {
+    const screenWidth = document.body.clientWidth;
+    for (const [index, image] of imageWrapperRef.current.entries()) {
+      const position = image.getBoundingClientRect().left;
+      const percentage =
+        Math.max(Math.min(position, screenWidth), 0) / screenWidth;
+      const element = imageWrapperRef.current[index];
+      if (!element) continue;
+      element.style.objectPosition = `${percentage * 100}% 0`;
+    }
+  };
+
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+
+    scrollContainerRef.current.addEventListener("scroll", onScroll);
+    return () => {
+      scrollContainerRef.current.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const update = (e: MouseEvent) => {
       setCurrentMouseX(e.clientX);
+      onScroll();
     };
     const mouseDown = (e: MouseEvent) => {
       setStartClickX(e.clientX);
@@ -44,26 +67,30 @@ export default function Images() {
   const { data: drinks = [], isLoading } = useDrinks({ search: "" });
   if (isLoading) return <CircularProgress />;
   return (
-    <Stack
-      direction="row"
-      spacing={2}
-      overflow="auto"
-      height={"85vh"}
-      className="scroll"
-      alignItems="center"
-      ref={(ref: any) => {
-        scrollContainerRef.current = ref;
-      }}
-    >
-      {drinks.map((drink) => (
-        <ImageBox
-          source={drink.imgsrc}
-          alt={drink.name}
-          key={drink.name}
-          id={drink.id}
-          position={currentMouseX}
-        />
-      ))}
-    </Stack>
+    <Box className="fadeout" height="100%">
+      <Stack
+        direction="row"
+        spacing={4}
+        overflow="auto"
+        height={"56vh"}
+        className="scroll"
+        top="20%"
+        ref={(ref: any) => {
+          scrollContainerRef.current = ref;
+        }}
+      >
+        {drinks.map((drink, index) => (
+          <ImageBox
+            source={drink.imgsrc}
+            alt={drink.name}
+            key={drink.name}
+            id={drink.id}
+            ref={(ref: HTMLImageElement) => {
+              imageWrapperRef.current[index] = ref;
+            }}
+          />
+        ))}
+      </Stack>
+    </Box>
   );
 }
