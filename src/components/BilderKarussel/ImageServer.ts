@@ -13,7 +13,7 @@ export interface Drink {
 export async function listDrinks({ search }: DrinkSearchParams) {
   // try {
   const data = await axios.get(
-    "https://api.smartinies.recipes/random_list?startAt=0&numResults=50"
+    "https://api.smartinies.recipes/random_list?startAt=0&numResults=25"
   );
   // const res = await fetch(url, {headers:{header, "Content-Type":"application/json"}, body:JSON.stringify({body}), method:"http-methods"})
   // const data = await res.json()
