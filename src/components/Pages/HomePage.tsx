@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import AppBarElement from "../AppBarElement";
+import AppBarElement from "../AppBar/AppBarElement";
 import Images from "../BilderKarussel/Images";
 import FilterDrawer from "../FilterDrawer";
 

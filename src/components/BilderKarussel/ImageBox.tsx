@@ -4,8 +4,9 @@ import { useEffect } from "react";
 import { forwardRef } from "react";
 import "./hover.css";
 
-const ImageBox = forwardRef<HTMLImageElement, { source: string; alt: string }>(
-  ({ source, alt }, ref) => {
+
+const ImageBox = forwardRef<HTMLImageElement, { source: string; alt: string; id:string }>(
+  ({ source, alt, id }, ref) => {
     return (
       <Box className="container">
         <img
@@ -19,7 +20,7 @@ const ImageBox = forwardRef<HTMLImageElement, { source: string; alt: string }>(
         <Box className="middle">
           <Box className="text">{alt}</Box>
           <Box className="button">
-            <Button href={"/cocktail/" + alt}>Details</Button>
+            <Button href={"/cocktail/" + id}>Details</Button>
             {/* Check position: {position.toString()} */}
           </Box>
         </Box>

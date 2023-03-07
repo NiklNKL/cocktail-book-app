@@ -20,8 +20,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CocktailList from "./Pages/RandomCocktailsPage";
-import IngredientsPage from "./Pages/IngredientsPage";
+import CocktailList from "../Pages/RandomCocktailsPage";
+import IngredientsPage from "../Pages/IngredientsPage";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -133,15 +133,6 @@ export default function PersistentDrawerLeft() {
           href="/ingredients"
         >
           {"Ingredients"}
-        </Button>
-        <Button
-          variant="text"
-          onClick={handleButtonClickFilters}
-          startIcon={<TuneIcon />}
-          color="inherit"
-          size="large"
-        >
-          {"Global Filters"}
         </Button>
         <Button
           variant="text"

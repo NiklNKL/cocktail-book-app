@@ -1,5 +1,5 @@
 import { Box, Toolbar } from "@mui/material";
-import AppBarElement from "../AppBarElement";
+import AppBarElement from "../AppBar/AppBarElement";
 import ImageListForDrinks from "../ImageListForDrinks";
 import { useState, useEffect } from "react";
 import axios from "axios";

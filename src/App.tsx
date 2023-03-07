@@ -10,10 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/allcocktails" element={<CocktailList />} />
-      <Route
-        path="/cocktail/:name"
-        element={<DrinkPage name={window.location.pathname.split("/")[2]} />}
-      />
+      <Route path="/cocktail/:id" element={<DrinkPage />} />
       <Route path="/ingredients" element={<IngredientsPage />} />
       <Route path="/search-results/:query" element={<SearchResults />} />
     </Routes>

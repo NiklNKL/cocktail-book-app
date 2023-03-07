@@ -84,6 +84,7 @@ export default function Images() {
             source={drink.imgsrc}
             alt={drink.name}
             key={drink.name}
+            id={drink.id}
             ref={(ref: HTMLImageElement) => {
               imageWrapperRef.current[index] = ref;
             }}
