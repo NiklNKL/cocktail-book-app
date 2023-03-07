@@ -97,12 +97,12 @@ export default function DrinkPage() {
           <Typography variant="h1">{data.cocktailName}</Typography>
 
           <Box marginTop="20px">
-            <Typography variant="h3">Ingredients: </Typography>
             <Box marginTop="20px" marginBottom="20px">
               <Typography variant="h3">Instructions:</Typography>
               <Typography variant="h4">{data.instructions}</Typography>
             </Box>
             <Box marginBottom="25px">
+              <Typography variant="h3">Ingredients: </Typography>
               <IngredientGrid
                 ingredientImage={data.ingredientImages}
                 ingredient={data.ingredients}
