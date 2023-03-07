@@ -12,7 +12,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "./SideBar";
 import Link from "@mui/material/Link";
 import SearchBar from "./SearchBar";
-import LogInPage from "./LogInPage";
+import LogInPage from "./CredentialComponents/LogInComponent";
+import CredentialComponent from "./CredentialComponents/CredentialPopup";
 import { Popover } from "@mui/material";
 
 export default function AppBarElement() {
@@ -57,7 +58,8 @@ export default function AppBarElement() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <LogInPage />
+      <CredentialComponent />
+      {/* <LogInPage /> */}
     </Popover>
   );
 
