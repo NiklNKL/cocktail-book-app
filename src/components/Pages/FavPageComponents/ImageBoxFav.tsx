@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import "./hover.css";
+import "./hoverFav.css";
 import axios from "axios";
 
 interface Cocktail {

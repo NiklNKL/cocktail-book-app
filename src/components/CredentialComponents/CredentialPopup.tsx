@@ -37,11 +37,7 @@ export default function CredentialComponent() {
     setDeletionSuccess(false);
   };
 
-  console.log("accessToken");
-  console.log(localStorage.getItem("access_token"));
   if (!token) {
-    console.log("token false");
-    console.log(token);
     return (
       <CssVarsProvider>
         <main>
@@ -92,8 +88,6 @@ export default function CredentialComponent() {
       </CssVarsProvider>
     );
   } else if (token) {
-    console.log("token true");
-    console.log(token);
     return (
       <CssVarsProvider>
         <main>

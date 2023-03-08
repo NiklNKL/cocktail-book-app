@@ -136,7 +136,7 @@ export default function PersistentDrawerLeft() {
         </Button>
         <Button
           variant="text"
-          onClick={handleButtonClickFavCocktails}
+          href="/favourites"
           startIcon={<FavoriteIcon />}
           color="inherit"
           size="large"
