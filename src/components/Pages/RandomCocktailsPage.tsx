@@ -11,7 +11,7 @@ function CocktailList() {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "https://api.smartinies.recipes/random_list?startAt=0&numResults=5"
+          "https://api.smartinies.recipes/randomList?startAt=0&numResults=5"
         );
         setData(response.data);
       } catch (err) {
