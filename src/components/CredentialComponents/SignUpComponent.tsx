@@ -10,22 +10,49 @@ import Link from "@mui/joy/Link";
 import { Mode } from "@mui/icons-material";
 import { useState } from "react";
 import axios from "axios";
-import { Box } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-export default function SignUpPage() {
+export default function SignUpPage({
+  setShowLogin,
+  setSignUpSuccess,
+}: {
+  setShowLogin: any;
+  setSignUpSuccess: any;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState(false);
+  const errorHelper = () => {
+    if (errorMessage) {
+      return (
+        <Box display="flex">
+          <Typography level="body2" color="danger">
+            Could not create account!
+          </Typography>
+          <Tooltip title="Possible Reasons: Account already exists or mail was not a mail-adress">
+            <IconButton>
+              <HelpOutlineIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      );
+    } else return <Typography level="body2">Create a new account:</Typography>;
+  };
   const handleSignin = async () => {
     try {
       const response = await axios.post(
         "https://api.smartinies.recipes/signup",
-        { email, password }
+        { email, name, password }
       );
+      setShowLogin(true);
+      setSignUpSuccess(true);
+      setErrorMessage(false);
       //localStorage.setItem("access_token", response.data.access_token);
       // Redirect to the home page or a protected route
     } catch (error) {
+      setErrorMessage(true);
       // Handle login error
     }
   };
@@ -37,7 +64,13 @@ export default function SignUpPage() {
             <Typography level="h4" component="h1">
               <b>Welcome!</b>
             </Typography>
-            <Typography level="body2">Create a new account:</Typography>
+            {errorMessage ? (
+              <Typography level="body2" color="danger">
+                Could not create account!
+              </Typography>
+            ) : (
+              <Typography level="body2">Create a new account:</Typography>
+            )}
           </Box>
           <Box marginBottom="10px">
             <FormControl>

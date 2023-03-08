@@ -28,10 +28,23 @@ import PropTypes from "prop-types";
 //   }).then((data) => data.json());
 // }
 
-export default function LogInPage({ setToken }: { setToken: any }) {
+export default function LogInPage({
+  setToken,
+  signUpSuccess,
+  deletionSuccess,
+}: {
+  setToken: any;
+  signUpSuccess: any;
+  deletionSuccess: any;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [exists, setExists] = useState(true);
 
+  const message = () => {
+    if (!exists) return "Account not found";
+    else return "Welcome!";
+  };
   const handleLogin = async () => {
     try {
       const response = await axios.post(
@@ -39,11 +52,13 @@ export default function LogInPage({ setToken }: { setToken: any }) {
         { email, password }
       );
       localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("user_name", response.data.name);
       setToken(response.data.access_token);
-      console.log(response);
+      setExists(true);
 
       // Redirect to the home page or a protected route
     } catch (error) {
+      setExists(false);
       // Handle login error
     }
   };
@@ -52,10 +67,23 @@ export default function LogInPage({ setToken }: { setToken: any }) {
       <main>
         <Box>
           <Box marginBottom="10px">
-            <Typography level="h4" component="h1">
-              <b>Welcome!</b>
-            </Typography>
-            <Typography level="body2">Log in to continue.</Typography>
+            {deletionSuccess ? (
+              <Typography level="h4" component="h1" color="success">
+                <b>Account deleted!</b>
+              </Typography>
+            ) : (
+              <Typography level="h4" component="h1">
+                <b>{message()}</b>
+              </Typography>
+            )}
+
+            {signUpSuccess ? (
+              <Typography level="body2" color="success">
+                Account successfully created!
+              </Typography>
+            ) : (
+              <Typography level="body2">Login to your Account</Typography>
+            )}
           </Box>
           <Box marginBottom="10px">
             <FormControl>
