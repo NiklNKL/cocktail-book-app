@@ -32,9 +32,16 @@ export default function AccountPage({
     setRemove(false);
     setLeave(false);
   };
-  const handleLogout = () => {
-    setToken(false);
-    localStorage.removeItem("access_token");
+  const handleLogout = async () => {
+    try {
+      // const response = await axios.get(
+      //   "https://api.smartinies.recipes/logout",
+      //   { headers: headers }
+      // );
+      setToken(false);
+      localStorage.removeItem("access_token");
+      window.location.reload();
+    } catch (error) {}
   };
 
   const handleDelete = async () => {
@@ -48,6 +55,7 @@ export default function AccountPage({
       setPasswordCheck(false);
       setToken(false);
       localStorage.removeItem("access_token");
+      window.location.reload();
       // Redirect to the home page or a protected route
     } catch (error) {
       setPasswordCheck(true);

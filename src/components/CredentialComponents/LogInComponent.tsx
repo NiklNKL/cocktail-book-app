@@ -55,6 +55,7 @@ export default function LogInPage({
       localStorage.setItem("user_name", response.data.name);
       setToken(response.data.access_token);
       setExists(true);
+      window.location.reload();
 
       // Redirect to the home page or a protected route
     } catch (error) {
