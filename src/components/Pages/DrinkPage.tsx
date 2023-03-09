@@ -1,22 +1,7 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Grid,
-  ImageListItemBar,
-  Typography,
-} from "@mui/material";
-import {
-  useState,
-  useEffect,
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-} from "react";
+import { Box, Grid, makeStyles, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
 import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
-import { useDrinks } from "../BilderKarussel/ImageServer";
+
 import axios from "axios";
 
 interface IngredientGridProps {
@@ -91,26 +76,26 @@ export default function DrinkPage() {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <img src={data.cocktailImage} />
+          <img style={{ borderRadius: "25px" }} src={data.cocktailImage} />
         </Box>
         <div>
-          <Typography variant="h1">{data.cocktailName}</Typography>
+          <Typography variant="h2">{data.cocktailName}</Typography>
 
           <Box marginTop="20px">
             <Box marginTop="20px" marginBottom="20px">
-              <Typography variant="h3">Instructions:</Typography>
-              <Typography variant="h4">{data.instructions}</Typography>
+              <Typography variant="h4">Instructions:</Typography>
+              <Typography variant="h5">{data.instructions}</Typography>
             </Box>
             <Box marginBottom="25px">
-              <Typography variant="h3">Ingredients: </Typography>
+              <Typography variant="h4">Ingredients: </Typography>
               <IngredientGrid
                 ingredientImage={data.ingredientImages}
                 ingredient={data.ingredients}
                 ingredientMeasure={data.ingredientMeasures}
               />
             </Box>
-            <Typography variant="h4">Tags:</Typography>
-            <Typography variant="h5">{data.tags}</Typography>
+            <Typography variant="h5">Tags:</Typography>
+            <Typography variant="h6">{data.tags}</Typography>
           </Box>
         </div>
       </Box>
