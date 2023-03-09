@@ -1,17 +1,10 @@
-import { Box, CircularProgress, Stack, Button } from "@mui/material";
-import ImageBox from "./ImageBox";
-import "./hover.css";
+import { Box, CircularProgress, Stack } from "@mui/material";
+import ImageBox from "./ImageBoxFav";
+import "./hoverFav.css";
 import { useEffect, useState, useMemo, useRef } from "react";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { useDrinks } from "./ImageServer";
+import { useDrinks } from "./ImageServerFav";
 
-export default function Images({
-  limit,
-  cutoff,
-}: {
-  limit: number;
-  cutoff: number;
-}) {
+export default function Images() {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
@@ -86,7 +79,7 @@ export default function Images({
           scrollContainerRef.current = ref;
         }}
       >
-        {drinks.slice(0, limit).map((drink, index) => (
+        {drinks.map((drink, index) => (
           <ImageBox
             source={drink.imgsrc}
             alt={drink.name}

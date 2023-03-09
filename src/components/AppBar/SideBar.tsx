@@ -23,6 +23,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CocktailList from "../Pages/RandomCocktailsPage";
 import IngredientsPage from "../Pages/IngredientsPage";
 import { useNavigate } from "react-router-dom";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const drawerWidth = 240;
 
@@ -57,6 +58,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(
+    localStorage.getItem("access_token") != null
+  );
+
   const navigate = useNavigate();
 
   const [data, setData] = useState(null);
@@ -135,13 +140,23 @@ export default function PersistentDrawerLeft() {
           {"Ingredients"}
         </Button>
         <Button
+          disabled={!loggedIn}
           variant="text"
-          onClick={handleButtonClickFavCocktails}
+          href="/favourites"
           startIcon={<FavoriteIcon />}
           color="inherit"
           size="large"
         >
           {"Favorite Cocktails"}
+        </Button>
+        <Button
+          disabled={!loggedIn}
+          variant="text"
+          startIcon={<InventoryIcon />}
+          color="inherit"
+          size="large"
+        >
+          {"Homebar"}
         </Button>
         <Divider />
       </Drawer>

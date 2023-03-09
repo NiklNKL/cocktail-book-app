@@ -27,13 +27,17 @@ import useToken from "./useToken";
 // }
 export default function CredentialComponent() {
   const [showLogin, setShowLogin] = useState(true);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
   const { token, setToken } = useToken();
+  const [deletionSuccess, setDeletionSuccess] = useState(false);
 
-  console.log("accessToken");
-  console.log(localStorage.getItem("access_token"));
+  const changeView = () => {
+    setShowLogin(!showLogin);
+    setSignUpSuccess(false);
+    setDeletionSuccess(false);
+  };
+
   if (!token) {
-    console.log("token false");
-    console.log(token);
     return (
       <CssVarsProvider>
         <main>
@@ -51,7 +55,18 @@ export default function CredentialComponent() {
             }}
             variant="outlined"
           >
-            {showLogin ? <LogInPage setToken={setToken} /> : <SignUpPage />}
+            {showLogin ? (
+              <LogInPage
+                setToken={setToken}
+                signUpSuccess={signUpSuccess}
+                deletionSuccess={deletionSuccess}
+              />
+            ) : (
+              <SignUpPage
+                setShowLogin={setShowLogin}
+                setSignUpSuccess={setSignUpSuccess}
+              />
+            )}
             <Box display="flex" alignContent="center">
               {showLogin ? (
                 <p>Dont have an account?</p>
@@ -60,7 +75,9 @@ export default function CredentialComponent() {
               )}
               <Button
                 variant="plain"
-                onClick={() => setShowLogin(!showLogin)}
+                onClick={() => {
+                  changeView();
+                }}
                 style={{ backgroundColor: "transparent" }}
               >
                 {showLogin ? "Sign Up" : "Login"}
@@ -71,8 +88,6 @@ export default function CredentialComponent() {
       </CssVarsProvider>
     );
   } else if (token) {
-    console.log("token true");
-    console.log(token);
     return (
       <CssVarsProvider>
         <main>
@@ -90,7 +105,10 @@ export default function CredentialComponent() {
             }}
             variant="outlined"
           >
-            <AccountPage setToken={setToken} />
+            <AccountPage
+              setToken={setToken}
+              setDeletionSuccess={setDeletionSuccess}
+            />
           </Sheet>
         </main>
       </CssVarsProvider>

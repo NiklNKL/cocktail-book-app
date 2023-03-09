@@ -13,18 +13,53 @@ import axios from "axios";
 import { Box, colors } from "@mui/material";
 import PropTypes from "prop-types";
 
-export default function AccountPage({ setToken }: { setToken: any }) {
+export default function AccountPage({
+  setToken,
+  setDeletionSuccess,
+}: {
+  setToken: any;
+  setDeletionSuccess: any;
+}) {
   const [remove, setRemove] = useState(false);
   const [leave, setLeave] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState(false);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("access_token"),
+  };
   const resetState = () => {
     setRemove(false);
     setLeave(false);
   };
-  const handleLogout = () => {
-    setToken(false);
-    localStorage.removeItem("access_token");
+  const handleLogout = async () => {
+    try {
+      // const response = await axios.get(
+      //   "https://api.smartinies.recipes/logout",
+      //   { headers: headers }
+      // );
+      setToken(false);
+      localStorage.removeItem("access_token");
+      window.location.reload();
+    } catch (error) {}
+  };
 
-    // Redirect to the home page or a protected route
+  const handleDelete = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.smartinies.recipes/deleteAccount",
+        { password },
+        { headers: headers }
+      );
+      setDeletionSuccess(true);
+      setPasswordCheck(false);
+      setToken(false);
+      localStorage.removeItem("access_token");
+      // Redirect to the home page or a protected route
+    } catch (error) {
+      setPasswordCheck(true);
+      // Handle login error
+    }
   };
   if (!remove && !leave) {
     return (
@@ -39,7 +74,7 @@ export default function AccountPage({ setToken }: { setToken: any }) {
                 <Typography level="body2">You are logged in as</Typography>
               </Box>
               <Typography level="h4" component="h1">
-                <b>Dominik Ruth</b>
+                <b>{localStorage.getItem("user_name")}</b>
               </Typography>
               <Button
                 sx={{ mt: 3 /* margin top */ }}
@@ -111,9 +146,20 @@ export default function AccountPage({ setToken }: { setToken: any }) {
           <main>
             <Box>
               <Box marginBottom="10px">
-                <Typography level="h5" textAlign="center" marginTop="10px">
-                  <b>Last chance</b>
-                </Typography>
+                {passwordCheck ? (
+                  <Typography
+                    level="h5"
+                    textAlign="center"
+                    marginTop="10px"
+                    color="danger"
+                  >
+                    <b>Password not correct!</b>
+                  </Typography>
+                ) : (
+                  <Typography level="h5" textAlign="center" marginTop="10px">
+                    <b>Last chance</b>
+                  </Typography>
+                )}
                 <Typography level="h5" textAlign="center" marginTop="10px">
                   Please don`t... We can have so much fun!
                 </Typography>
@@ -121,6 +167,17 @@ export default function AccountPage({ setToken }: { setToken: any }) {
               <Typography level="h5" textAlign="center" marginTop="10px">
                 The next step cannot be undone
               </Typography>
+              <FormControl>
+                <FormLabel>Enter Password</FormLabel>
+                <Input
+                  // html input attribute
+                  name="password"
+                  type="password"
+                  placeholder="Your Password..."
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </FormControl>
               <Button
                 sx={{ mt: 3 /* margin top */ }}
                 onClick={resetState}
@@ -131,7 +188,7 @@ export default function AccountPage({ setToken }: { setToken: any }) {
               </Button>
               <Button
                 sx={{ mt: 1 /* margin top */ }}
-                onClick={handleLogout}
+                onClick={handleDelete}
                 color="danger"
                 size="md"
                 fullWidth
