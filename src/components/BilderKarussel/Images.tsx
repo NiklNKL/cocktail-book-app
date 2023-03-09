@@ -14,7 +14,11 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { Search } from "@mui/icons-material";
 
-export default function Images() {
+export default function Images({
+  search,
+}: {
+  search: string;
+}) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
@@ -41,6 +45,7 @@ export default function Images() {
       if (!element) continue;
       element.style.objectPosition = `${percentage * 100}% 0`;
     }
+    console.log("Images" + search);
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ export default function Images() {
     scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
+
   const forwardPage = () => {
     setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
     setResetScroll(true);
@@ -93,7 +99,7 @@ export default function Images() {
     setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
     setResetScroll(true);
   };
-  const { data: drinks = [], isLoading } = useDrinks({ search: "" });
+  const { data: drinks = [], isLoading } = useDrinks({ search: search });
   if (isLoading)
     return (
       <Box
