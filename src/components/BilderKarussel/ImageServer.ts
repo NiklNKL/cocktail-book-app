@@ -22,7 +22,7 @@ export async function listDrinks({ search }: DrinkSearchParams) {
     );
   } else {
     response = await axios.get(
-      "https://api.smartinies.recipes/randomList?startAt=0&numResults=100"
+      "https://api.smartinies.recipes/randomList"
     );
   }
 
