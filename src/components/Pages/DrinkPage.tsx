@@ -25,7 +25,7 @@ const IngredientGrid: React.FC<IngredientGridProps> = ({
   ingredientMeasure,
 }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} marginTop="1%">
       {ingredientImage?.map((image, index) => (
         <Grid key={index} item xs={4}>
           <div
