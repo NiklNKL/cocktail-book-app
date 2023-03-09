@@ -18,6 +18,7 @@ import {
 import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import axios from "axios";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import DynamicGrid from "./IngredientPageComponents/DynamicGrid";
 
 function Ingredients() {
   const [data, setData] = useState([]);
@@ -49,7 +50,8 @@ function Ingredients() {
         marginLeft={"50px"}
         marginRight={"50px"}
       >
-        <ImageList
+        <DynamicGrid data={data} />
+        {/* <ImageList
           sx={{ display: "inline", marginTop: "20px" }}
           rowHeight="auto"
         >
@@ -78,7 +80,7 @@ function Ingredients() {
                 </ImageListItem>
               )
             )}
-        </ImageList>
+        </ImageList> */}
       </Box>
       <Box display="flex" justifyContent="center">
         <Button

@@ -4,6 +4,7 @@ import {
   Stack,
   Button,
   IconButton,
+  Typography,
 } from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
@@ -14,11 +15,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { Search } from "@mui/icons-material";
 
-export default function Images({
-  search,
-}: {
-  search: string;
-}) {
+export default function Images({ search }: { search: string }) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
@@ -90,7 +87,6 @@ export default function Images({
     scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
-
   const forwardPage = () => {
     setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
     setResetScroll(true);
@@ -113,7 +109,7 @@ export default function Images({
       </Box>
     );
   return (
-    <Box height="100%">
+    <Box height="100%" marginTop="3%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
@@ -126,6 +122,17 @@ export default function Images({
             scrollContainerRef.current = ref;
           }}
         >
+          <Box
+            marginRight="1%"
+            marginLeft="9%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {" "}
+            <Typography variant="h1" align="right">
+              Grab your drink:
+            </Typography>
+          </Box>
           {drinks.slice(currentImg, currentImg + 20).map((drink, index) => (
             <ImageBox
               source={drink.imgsrc}

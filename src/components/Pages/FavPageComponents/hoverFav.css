@@ -1,6 +1,5 @@
 .container {
   position: relative;
-  right: -50%;
 }
 
 .image {
@@ -8,6 +7,7 @@
   display: auto;
   width: 30vmin;
   height: 56vmin;
+  border-radius: 15px;
   object-fit: cover;
   object-position: 50%;
   transition: object-position 0.1s ease;

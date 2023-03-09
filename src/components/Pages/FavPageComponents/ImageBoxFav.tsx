@@ -30,24 +30,34 @@ const ImageBox = forwardRef<
   };
 
   useEffect(() => {
-    axios
-      .get("https://api.smartinies.recipes/favourites", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((response) => {
-        setCocktails(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (
+      localStorage.getItem("access_token") != undefined &&
+      localStorage.getItem("access_token") != null
+    ) {
+      axios
+        .get("https://api.smartinies.recipes/favourites", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          setCocktails(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   useEffect(() => {
-    if (cocktails.length > 0) {
-      const exists = checkIfIdExists(id);
-      setChecked(exists);
+    if (
+      localStorage.getItem("access_token") != undefined &&
+      localStorage.getItem("access_token") != null
+    ) {
+      if (cocktails.length > 0) {
+        const exists = checkIfIdExists(id);
+        setChecked(exists);
+      }
     }
   }, [cocktails]);
 
