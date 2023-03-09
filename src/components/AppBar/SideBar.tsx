@@ -20,7 +20,6 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CocktailList from "../Pages/RandomCocktailsPage";
 import IngredientsPage from "../Pages/IngredientsPage";
 import { useNavigate } from "react-router-dom";
 import InventoryIcon from "@mui/icons-material/Inventory";
@@ -121,15 +120,7 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Button
-          variant="text"
-          startIcon={<LocalBarIcon />}
-          color="inherit"
-          size="large"
-          href="/allcocktails"
-        >
-          {"Cocktails"}
-        </Button>
+
         <Button
           variant="text"
           startIcon={<LiquorIcon />}
