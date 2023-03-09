@@ -15,7 +15,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import AppBarElement from "../AppBar/AppBarElement";
+import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import axios from "axios";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
@@ -40,7 +40,7 @@ function Ingredients() {
   }, []);
   return (
     <Box height="100vh">
-      <AppBarElement />
+      <AppBarElementNoSearch />
       <Toolbar />
       <Box
         display="flex"

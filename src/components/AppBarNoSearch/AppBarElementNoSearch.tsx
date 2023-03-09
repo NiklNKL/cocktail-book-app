@@ -9,19 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import SideBar from "./SideBar";
+import SideBar from "../AppBar/SideBar";
 import Link from "@mui/material/Link";
-import SearchBar from "./SearchBar";
 import LogInPage from "../CredentialComponents/LogInComponent";
 import CredentialComponent from "../CredentialComponents/CredentialPopup";
 import { Popover } from "@mui/material";
 import { useState } from "react";
 
-type AppBarProps = {
-  onSearchValueChange: (input: string) => void;
-};
-
-export default function AppBarElement(props: AppBarProps) {
+export default function AppBarElement() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -107,14 +102,6 @@ export default function AppBarElement(props: AppBarProps) {
     </Menu>
   );
 
-  const [searchValue, setSearchValue] = useState<string>("");
-
-  const handleSearchValueChange = (input: string) => {
-    setSearchValue(input);
-    props.onSearchValueChange(input);
-    console.log("AppBar" + input);
-  };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -128,7 +115,6 @@ export default function AppBarElement(props: AppBarProps) {
       >
         <Toolbar sx={{ justifyContent: "center" }}>
           <SideBar />
-          <SearchBar onSearchValueChange={handleSearchValueChange} />
           <div
             style={{
               position: "absolute",

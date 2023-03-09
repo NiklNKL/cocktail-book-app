@@ -15,7 +15,7 @@ import {
   ReactFragment,
   ReactPortal,
 } from "react";
-import AppBarElement from "../AppBar/AppBarElement";
+import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import { useDrinks } from "../BilderKarussel/ImageServer";
 import axios from "axios";
 
@@ -82,7 +82,7 @@ export default function DrinkPage() {
   console.log(id);
   return (
     <Box height="100vh">
-      <AppBarElement />
+      <AppBarElementNoSearch />
       <Box display="flex" marginTop="200px">
         <Box
           display="flex"

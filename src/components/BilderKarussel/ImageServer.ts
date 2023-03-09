@@ -12,7 +12,20 @@ export interface Drink {
 
 export async function listDrinks({ search }: DrinkSearchParams) {
   // try {
-  const data = await axios.get("https://api.smartinies.recipes/randomList");
+  console.log("ImageServer" + search);
+
+  let response = null;
+
+  if (search != "") {
+    response = await axios.get(
+      `https://api.smartinies.recipes/list?contains=${search}`
+    );
+  } else {
+    response = await axios.get(
+      "https://api.smartinies.recipes/randomList"
+    );
+  }
+
   // const res = await fetch(url, {headers:{header, "Content-Type":"application/json"}, body:JSON.stringify({body}), method:"http-methods"})
   // const data = await res.json()
   // }
@@ -26,7 +39,7 @@ export async function listDrinks({ search }: DrinkSearchParams) {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const drinks: Drink[] = [];
-  for (const item of data.data) {
+  for (const item of response.data) {
     const drink: Drink = {
       name: item.cocktailName,
       imgsrc: item.image,
