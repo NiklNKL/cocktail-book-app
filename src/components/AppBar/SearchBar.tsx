@@ -3,8 +3,12 @@ import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+
+type SearchBarProps = {
+  onSearchValueChange: (input: string) => void;
+};
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,29 +50,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
-  const navigate = useNavigate();
+export default function PrimarySearchAppBar(props: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const handleSearch = () => {
-    navigate(`/search-results/${searchQuery}`);
+
+  useEffect(() => {
+    props.onSearchValueChange(searchQuery);
+  }, [searchQuery]);
+
+  const handleSearchValueChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchQuery(event.target.value);
+    props.onSearchValueChange(searchQuery);
+    console.log("SearchBar" + searchQuery);
   };
 
   return (
     <Box display="flex">
       <Search sx={{ marginRight: "23.5%" }}>
-        <SearchIconWrapper onClick={handleSearch}>
+        <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-              window.location.reload();
-            }
-          }}
+          onChange={handleSearchValueChange}
         />
       </Search>
     </Box>

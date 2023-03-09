@@ -8,9 +8,11 @@ import { useDrinks } from "./ImageServer";
 export default function Images({
   limit,
   cutoff,
+  search,
 }: {
   limit: number;
   cutoff: number;
+  search: string;
 }) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
@@ -27,6 +29,7 @@ export default function Images({
       if (!element) continue;
       element.style.objectPosition = `${percentage * 100}% 0`;
     }
+    console.log("Images" + search);
   };
 
   useEffect(() => {
@@ -71,7 +74,7 @@ export default function Images({
     scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
-  const { data: drinks = [], isLoading } = useDrinks({ search: "" });
+  const { data: drinks = [], isLoading } = useDrinks({ search: search });
   if (isLoading) return <CircularProgress />;
   return (
     <Box className="fadeout" height="100%">

@@ -13,11 +13,18 @@ function HomePage() {
   //   else return 0;
   // };
   console.log(cutoff);
+
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  const handleSearchValueChange = (input: string) => {
+    setSearchValue(input);
+    console.log("HomePage" + searchValue);
+  };
   return (
     <Box height="100vh">
-      <AppBarElement />
+      <AppBarElement onSearchValueChange={handleSearchValueChange} />
 
-      <Images limit={limit} cutoff={cutoff} />
+      <Images limit={limit} cutoff={cutoff} search={searchValue} />
       {/* <Box
         display="flex"
         bottom="0"
