@@ -1,21 +1,35 @@
-import { Box, CircularProgress, Stack, Button } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Stack,
+  Button,
+  IconButton,
+} from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
 import { useEffect, useState, useMemo, useRef } from "react";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useDrinks } from "./ImageServer";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { Search } from "@mui/icons-material";
 
-export default function Images({
-  limit,
-  cutoff,
-}: {
-  limit: number;
-  cutoff: number;
-}) {
+export default function Images() {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
   const imageWrapperRef = useRef<HTMLElement[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [currentImg, setCurrentImg] = useState(0);
+
+  const [resetScroll, setResetScroll] = useState(false);
+
+  useEffect(() => {
+    if (resetScroll) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+      setResetScroll(false);
+    }
+  }, [resetScroll]);
 
   const onScroll = () => {
     const screenWidth = document.body.clientWidth;
@@ -71,33 +85,82 @@ export default function Images({
     scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
+  const forwardPage = () => {
+    setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
+    setResetScroll(true);
+  };
+  const BackwardPage = () => {
+    setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
+    setResetScroll(true);
+  };
   const { data: drinks = [], isLoading } = useDrinks({ search: "" });
-  if (isLoading) return <CircularProgress />;
-  return (
-    <Box className="fadeout" height="100%">
-      <Stack
-        direction="row"
-        spacing={4}
-        overflow="auto"
-        height={"56vh"}
-        className="scroll"
-        top="20%"
-        ref={(ref: any) => {
-          scrollContainerRef.current = ref;
-        }}
+  if (isLoading)
+    return (
+      <Box
+        height="100%"
+        width="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
       >
-        {drinks.slice(0, limit).map((drink, index) => (
-          <ImageBox
-            source={drink.imgsrc}
-            alt={drink.name}
-            key={drink.name}
-            id={drink.id}
-            ref={(ref: HTMLImageElement) => {
-              imageWrapperRef.current[index] = ref;
-            }}
-          />
-        ))}
-      </Stack>
+        <CircularProgress />;
+      </Box>
+    );
+  return (
+    <Box height="100%">
+      <Box className="fadeout" height="56vh">
+        <Stack
+          direction="row"
+          spacing={4}
+          overflow="auto"
+          height={"56vh"}
+          className="scroll"
+          top="20%"
+          ref={(ref: any) => {
+            scrollContainerRef.current = ref;
+          }}
+        >
+          {drinks.slice(currentImg, currentImg + 20).map((drink, index) => (
+            <ImageBox
+              source={drink.imgsrc}
+              alt={drink.name}
+              key={drink.name}
+              id={drink.id}
+              ref={(ref: HTMLImageElement) => {
+                imageWrapperRef.current[index] = ref;
+              }}
+            />
+          ))}
+        </Stack>
+      </Box>
+      <Box display="flex" justifyContent={"center"}>
+        <Box marginTop="120px" marginRight="20px" display="flex">
+          <IconButton onClick={BackwardPage} disabled={pageNumber == 1}>
+            <ArrowCircleLeftIcon />
+          </IconButton>
+        </Box>
+        <Box marginTop="120px" display="flex" justifyContent={"end"}>
+          <p className="prevent-select">
+            Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
+          </p>
+        </Box>
+        <Box
+          marginTop="120px"
+          display="flex"
+          justifyContent={"end"}
+          marginLeft="20px"
+        >
+          <IconButton
+            onClick={forwardPage}
+            disabled={pageNumber == Math.ceil(drinks.length / 50)}
+          >
+            <ArrowCircleRightIcon />
+          </IconButton>
+        </Box>
+      </Box>
+      <Box display="flex" justifyContent={"center"} alignItems="flex-end">
+        <p>Available Drinks: {drinks.length}</p>
+      </Box>
     </Box>
   );
 }

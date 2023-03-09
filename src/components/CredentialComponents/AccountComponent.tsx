@@ -55,6 +55,7 @@ export default function AccountPage({
       setPasswordCheck(false);
       setToken(false);
       localStorage.removeItem("access_token");
+      window.location.reload();
       // Redirect to the home page or a protected route
     } catch (error) {
       setPasswordCheck(true);

@@ -30,24 +30,34 @@ const ImageBox = forwardRef<
   };
 
   useEffect(() => {
-    axios
-      .get("https://api.smartinies.recipes/favourites", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-      .then((response) => {
-        setCocktails(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (
+      localStorage.getItem("access_token") != undefined &&
+      localStorage.getItem("access_token") != null
+    ) {
+      axios
+        .get("https://api.smartinies.recipes/favourites", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          setCocktails(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   useEffect(() => {
-    if (cocktails.length > 0) {
-      const exists = checkIfIdExists(id);
-      setChecked(exists);
+    if (
+      localStorage.getItem("access_token") != undefined &&
+      localStorage.getItem("access_token") != null
+    ) {
+      if (cocktails.length > 0) {
+        const exists = checkIfIdExists(id);
+        setChecked(exists);
+      }
     }
   }, [cocktails]);
 
@@ -60,19 +70,16 @@ const ImageBox = forwardRef<
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      console.log("Fav removed");
       handleRemoveFav();
     } else {
-      console.log("Fav added");
       handleAddFav();
     }
     setChecked(event.target.checked);
-    console.log(checkIfIdExists(id));
   };
 
   const handleAddFav = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.smartinies.recipes/addFavourite",
         { id },
         { headers: headers }
@@ -86,7 +93,7 @@ const ImageBox = forwardRef<
 
   const handleRemoveFav = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.smartinies.recipes/removeFavourite",
         { id },
         { headers: headers }
