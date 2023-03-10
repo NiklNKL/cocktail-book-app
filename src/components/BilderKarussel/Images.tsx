@@ -127,13 +127,14 @@ export default function Images({ search }: { search: string }) {
             marginLeft="9%"
             alignItems="center"
             justifyContent="center"
+            justifyItems="center"
+            display="flex"
           >
-            {" "}
-            <Typography variant="h1" align="right">
+            <Typography variant="h1" align="right" alignSelf="center">
               Grab your drink:
             </Typography>
           </Box>
-          {drinks.slice(currentImg, currentImg + 20).map((drink, index) => (
+          {drinks.slice(currentImg, currentImg + 50).map((drink, index) => (
             <ImageBox
               source={drink.imgsrc}
               alt={drink.name}
@@ -147,21 +148,21 @@ export default function Images({ search }: { search: string }) {
         </Stack>
       </Box>
       <Box display="flex" justifyContent={"center"}>
-        <Box marginTop="120px" marginRight="20px" display="flex">
+        <Box marginTop="15%" marginRight="1%" display="flex">
           <IconButton onClick={BackwardPage} disabled={pageNumber == 1}>
             <ArrowCircleLeftIcon />
           </IconButton>
         </Box>
-        <Box marginTop="120px" display="flex" justifyContent={"end"}>
+        <Box marginTop="15%" display="flex" justifyContent={"end"}>
           <p className="prevent-select">
             Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
           </p>
         </Box>
         <Box
-          marginTop="120px"
+          marginTop="15%"
           display="flex"
           justifyContent={"end"}
-          marginLeft="20px"
+          marginLeft="1%"
         >
           <IconButton
             onClick={forwardPage}

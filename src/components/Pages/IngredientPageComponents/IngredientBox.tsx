@@ -1,25 +1,20 @@
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
+import { Key, useState } from "react";
 import { useEffect } from "react";
-import { forwardRef } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import "./hover.css";
+import "./ingHover.css";
 import axios from "axios";
 
-interface Cocktail {
-  cocktailName: string;
-  id: number;
+export interface Ingredient {
+  id: Key;
   image: string;
-  instructions: string;
+  ingredientName: string;
 }
 
-const ImageBox = forwardRef<
-  HTMLImageElement,
-  { source: string; alt: string; id: string }
->(({ source, alt, id }, ref) => {
-  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
+  const [inventory, setInventory] = useState<Ingredient[]>([]);
   const [checked, setChecked] = useState<boolean | null>(null);
   const [checkForAcc, setCheckForAccount] = useState(
     localStorage.getItem("access_token") != null
@@ -35,11 +30,11 @@ const ImageBox = forwardRef<
       localStorage.getItem("access_token") != null
     ) {
       axios
-        .get("https://api.smartinies.recipes/favourites", {
+        .get("https://api.smartinies.recipes/inventory", {
           headers: headers,
         })
         .then((response) => {
-          setCocktails(response.data);
+          setInventory(response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -52,33 +47,33 @@ const ImageBox = forwardRef<
       localStorage.getItem("access_token") != undefined &&
       localStorage.getItem("access_token") != null
     ) {
-      if (cocktails.length > 0) {
-        const exists = checkIfIdExists(id);
+      if (inventory.length > 0) {
+        const exists = checkIfIdExists(id.toString());
         setChecked(exists);
       }
     }
-  }, [cocktails]);
+  }, [inventory]);
 
   function checkIfIdExists(idString: string): boolean {
     const id = parseInt(idString);
-    return cocktails.some((cocktail) => cocktail.id === id);
+    return inventory.some((inventory) => inventory.id === id);
   }
 
   // const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      handleRemoveFav();
+      handleRemoveInv();
     } else {
-      handleAddFav();
+      handleAddInv();
     }
     setChecked(event.target.checked);
   };
 
-  const handleAddFav = async () => {
+  const handleAddInv = async () => {
     try {
       await axios.post(
-        "https://api.smartinies.recipes/addFavourite",
+        "https://api.smartinies.recipes/addToInventory",
         { id },
         { headers: headers }
       );
@@ -89,10 +84,10 @@ const ImageBox = forwardRef<
     }
   };
 
-  const handleRemoveFav = async () => {
+  const handleRemoveInv = async () => {
     try {
       await axios.post(
-        "https://api.smartinies.recipes/removeFavourite",
+        "https://api.smartinies.recipes/removeFromInventory",
         { id },
         { headers: headers }
       );
@@ -104,20 +99,15 @@ const ImageBox = forwardRef<
   };
 
   return (
-    <Box className="container">
+    <Box className="ingContainer">
       <img
-        src={source}
-        ref={ref}
-        alt={alt}
-        className="image"
+        src={image}
+        alt={ingredientName}
         draggable="false"
+        className="ingImage"
       />
 
-      <Box className="middle">
-        <Box className="text">{alt}</Box>
-        <Box className="button">
-          <Button href={"/cocktail/" + id}>Details</Button>
-        </Box>
+      <Box className="ingMiddle">
         <Box>
           {checkForAcc ? (
             <Checkbox
@@ -138,6 +128,6 @@ const ImageBox = forwardRef<
       </Box>
     </Box>
   );
-});
+};
 
-export default ImageBox;
+export default IngredientBox;

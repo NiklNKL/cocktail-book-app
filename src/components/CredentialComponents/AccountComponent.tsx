@@ -12,6 +12,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Box, colors } from "@mui/material";
 import PropTypes from "prop-types";
+import { useHref } from "react-router-dom";
 
 export default function AccountPage({
   setToken,
@@ -81,6 +82,7 @@ export default function AccountPage({
                 sx={{ mt: 3 /* margin top */ }}
                 onClick={handleLogout}
                 fullWidth
+                href="/"
               >
                 Leave the Club...
               </Button>
@@ -193,6 +195,7 @@ export default function AccountPage({
                 color="danger"
                 size="md"
                 fullWidth
+                href="/"
               >
                 Goodbye :,c
               </Button>
