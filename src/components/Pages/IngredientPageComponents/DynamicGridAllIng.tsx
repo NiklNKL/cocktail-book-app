@@ -27,10 +27,6 @@ const useStyles = makeStyles({
     height: "250px",
     textAlign: "center",
   },
-  image: {
-    witdth: "200px",
-    height: "200px",
-  },
 });
 
 interface Props {
@@ -49,10 +45,10 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
   console.log(data);
 
   const forwardPage = () => {
-    setCurrentLimit(currentLimit + 25), setPageNumber(pageNumber + 1);
+    setCurrentLimit(currentLimit + 10), setPageNumber(pageNumber + 1);
   };
   const BackwardPage = () => {
-    setCurrentLimit(currentLimit - 25), setPageNumber(pageNumber - 1);
+    setCurrentLimit(currentLimit - 10), setPageNumber(pageNumber - 1);
   };
   return (
     <Box width={"70%"}>
@@ -69,7 +65,7 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
         <Paper sx={{ borderRadius: "25px", padding: "2%" }}>
           <Grid container className={classes.gridContainer} spacing={2}>
             {data
-              .slice(currentLimit, currentLimit + 24)
+              .slice(currentLimit, currentLimit + 10)
               .map((ingredient: Ingredient) => (
                 <Grid item xs className={classes.gridItem} key={ingredient.id}>
                   <Box>
@@ -85,7 +81,7 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
           </Grid>
           <Box display="flex" justifyContent={"center"}>
             <p className="prevent-select">
-              Page: {pageNumber}/{Math.ceil(data.length / 24)}
+              Page: {pageNumber}/{Math.ceil(data.length / 10)}
             </p>
           </Box>
         </Paper>
@@ -93,7 +89,7 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
           <IconButton
             onClick={forwardPage}
             sx={{ height: "auto" }}
-            disabled={pageNumber == Math.ceil(data.length / 24)}
+            disabled={pageNumber == Math.ceil(data.length / 10)}
           >
             <ArrowCircleRightIcon />
           </IconButton>

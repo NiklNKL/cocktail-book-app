@@ -109,7 +109,7 @@ export default function Images({ search }: { search: string }) {
       </Box>
     );
   return (
-    <Box height="100%" marginTop="3%">
+    <Box height="90%" marginTop="7%" paddingTop="3%" paddingBottom="4%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
@@ -117,7 +117,6 @@ export default function Images({ search }: { search: string }) {
           overflow="auto"
           height={"56vh"}
           className="scroll"
-          top="20%"
           ref={(ref: any) => {
             scrollContainerRef.current = ref;
           }}
@@ -148,22 +147,17 @@ export default function Images({ search }: { search: string }) {
         </Stack>
       </Box>
       <Box display="flex" justifyContent={"center"}>
-        <Box marginTop="15%" marginRight="1%" display="flex">
+        <Box marginRight="1%" display="flex">
           <IconButton onClick={BackwardPage} disabled={pageNumber == 1}>
             <ArrowCircleLeftIcon />
           </IconButton>
         </Box>
-        <Box marginTop="15%" display="flex" justifyContent={"end"}>
+        <Box display="flex" justifyContent={"end"}>
           <p className="prevent-select">
             Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
           </p>
         </Box>
-        <Box
-          marginTop="15%"
-          display="flex"
-          justifyContent={"end"}
-          marginLeft="1%"
-        >
+        <Box display="flex" justifyContent={"end"} marginLeft="1%">
           <IconButton
             onClick={forwardPage}
             disabled={pageNumber == Math.ceil(drinks.length / 50)}

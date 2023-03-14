@@ -11,7 +11,7 @@ function HomePage() {
     console.log("HomePage" + searchValue);
   };
   return (
-    <Box height="100vh">
+    <Box height="100vh" className="homepage">
       <AppBarElement onSearchValueChange={handleSearchValueChange} />
       <Images search={searchValue} />
       <FilterDrawer />
