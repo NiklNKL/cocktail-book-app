@@ -36,9 +36,7 @@ const ImageBox = forwardRef<
     ) {
       axios
         .get("https://api.smartinies.recipes/favourites", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
+          headers: headers,
         })
         .then((response) => {
           setCocktails(response.data);
@@ -47,7 +45,7 @@ const ImageBox = forwardRef<
           console.error(error);
         });
     }
-  }, []);
+  }, [checked]);
 
   useEffect(() => {
     if (

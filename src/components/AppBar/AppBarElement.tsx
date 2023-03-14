@@ -16,6 +16,7 @@ import LogInPage from "../CredentialComponents/LogInComponent";
 import CredentialComponent from "../CredentialComponents/CredentialPopup";
 import { Popover } from "@mui/material";
 import { useState } from "react";
+import zIndex from "@mui/material/styles/zIndex";
 
 type AppBarProps = {
   onSearchValueChange: (input: string) => void;
@@ -116,7 +117,7 @@ export default function AppBarElement(props: AppBarProps) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, zIndex: 1400 }}>
       <AppBar
         sx={{
           display: "flex",

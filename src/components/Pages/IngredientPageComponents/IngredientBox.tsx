@@ -1,25 +1,21 @@
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
+import { Key, useState } from "react";
 import { useEffect } from "react";
-import { forwardRef } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import "./hoverFav.css";
+import "./ingHover.css";
 import axios from "axios";
 
-interface Cocktail {
-  cocktailName: string;
-  id: number;
+export interface IngredientProps {
+  id: Key;
   image: string;
-  instructions: string;
+  ingredientName: string;
+  onCheckChange: (checked: boolean | null) => void;
 }
 
-const ImageBox = forwardRef<
-  HTMLImageElement,
-  { source: string; alt: string; id: string }
->(({ source, alt, id }, ref) => {
-  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+const IngredientBox = (props: IngredientProps) => {
+  const [inventory, setInventory] = useState<IngredientProps[]>([]);
   const [checked, setChecked] = useState<boolean | null>(null);
   const [checkForAcc, setCheckForAccount] = useState(
     localStorage.getItem("access_token") != null
@@ -35,13 +31,11 @@ const ImageBox = forwardRef<
       localStorage.getItem("access_token") != null
     ) {
       axios
-        .get("https://api.smartinies.recipes/favourites", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
+        .get("https://api.smartinies.recipes/inventory", {
+          headers: headers,
         })
         .then((response) => {
-          setCocktails(response.data);
+          setInventory(response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -54,37 +48,35 @@ const ImageBox = forwardRef<
       localStorage.getItem("access_token") != undefined &&
       localStorage.getItem("access_token") != null
     ) {
-      if (cocktails.length > 0) {
-        const exists = checkIfIdExists(id);
+      if (inventory.length > 0) {
+        const exists = checkIfIdExists(props.id.toString());
         setChecked(exists);
       }
     }
-  }, [cocktails]);
+  }, [inventory]);
 
   function checkIfIdExists(idString: string): boolean {
     const id = parseInt(idString);
-    return cocktails.some((cocktail) => cocktail.id === id);
+    return inventory.some((inventory) => inventory.id === id);
   }
 
   // const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      console.log("Fav removed");
-      handleRemoveFav();
+      handleRemoveInv();
     } else {
-      console.log("Fav added");
-      handleAddFav();
+      handleAddInv();
     }
     setChecked(event.target.checked);
-    console.log(checkIfIdExists(id));
+    props.onCheckChange(checked);
   };
 
-  const handleAddFav = async () => {
+  const handleAddInv = async () => {
     try {
-      const response = await axios.post(
-        "https://api.smartinies.recipes/addFavourite",
-        { id },
+      await axios.post(
+        "https://api.smartinies.recipes/addToInventory",
+        { id: props.id },
         { headers: headers }
       );
 
@@ -94,11 +86,11 @@ const ImageBox = forwardRef<
     }
   };
 
-  const handleRemoveFav = async () => {
+  const handleRemoveInv = async () => {
     try {
-      const response = await axios.post(
-        "https://api.smartinies.recipes/removeFavourite",
-        { id },
+      await axios.post(
+        "https://api.smartinies.recipes/removeFromInventory",
+        { id: props.id },
         { headers: headers }
       );
 
@@ -109,20 +101,15 @@ const ImageBox = forwardRef<
   };
 
   return (
-    <Box className="container">
+    <Box className="ingContainer">
       <img
-        src={source}
-        ref={ref}
-        alt={alt}
-        className="image"
+        src={props.image}
+        alt={props.ingredientName}
         draggable="false"
+        className="ingImage"
       />
 
-      <Box className="middle">
-        <Box className="text">{alt}</Box>
-        <Box className="button">
-          <Button href={"/cocktail/" + id}>Details</Button>
-        </Box>
+      <Box className="ingMiddle">
         <Box>
           {checkForAcc ? (
             <Checkbox
@@ -143,6 +130,6 @@ const ImageBox = forwardRef<
       </Box>
     </Box>
   );
-});
+};
 
-export default ImageBox;
+export default IngredientBox;
