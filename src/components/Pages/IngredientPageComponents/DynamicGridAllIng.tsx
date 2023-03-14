@@ -7,6 +7,7 @@ import {
   JSXElementConstructor,
   ReactFragment,
   useState,
+  useEffect,
 } from "react";
 import { useIngredients } from "./IngredientServer";
 import IngredientBox from "./IngredientBox";
@@ -23,8 +24,8 @@ const useStyles = makeStyles({
   },
   gridItem: {
     padding: "1%",
-    witdth: "200px",
-    height: "200px",
+    witdth: "12vh",
+    height: "12vh",
     textAlign: "center",
     marginLeft: "1%",
     marginRight: "1%",
@@ -49,12 +50,35 @@ const DynamicGridAllIng = (props: GridProps) => {
   const [pageNumber, setPageNumber] = useState(1);
   const classes = useStyles();
   console.log(props.data);
+  const [itemLimit, setItemLimit] = useState(18);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      console.log(windowSize);
+    }
+    if (windowSize.width >= 2074) setItemLimit(18);
+    else if (windowSize.width < 2074 && windowSize.width > 1274)
+      setItemLimit(10);
+    else if (windowSize.width < 1274 && windowSize.width > 814) setItemLimit(6);
+    else setItemLimit(4);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const forwardPage = () => {
-    setCurrentLimit(currentLimit + 15), setPageNumber(pageNumber + 1);
+    setCurrentLimit(currentLimit + itemLimit), setPageNumber(pageNumber + 1);
   };
   const BackwardPage = () => {
-    setCurrentLimit(currentLimit - 15), setPageNumber(pageNumber - 1);
+    setCurrentLimit(currentLimit - itemLimit), setPageNumber(pageNumber - 1);
   };
 
   const handleCheckChange = (input: boolean | null) => {
@@ -76,7 +100,7 @@ const DynamicGridAllIng = (props: GridProps) => {
         <Paper sx={{ borderRadius: "25px", padding: "2%" }}>
           <Grid container className={classes.gridContainer} spacing={2}>
             {props.data
-              .slice(currentLimit, currentLimit + 15)
+              .slice(currentLimit, currentLimit + itemLimit)
               .map((ingredient: Ingredient) => (
                 <Grid item xs className={classes.gridItem} key={ingredient.id}>
                   <Box>
@@ -96,7 +120,7 @@ const DynamicGridAllIng = (props: GridProps) => {
           </Grid>
           <Box display="flex" justifyContent={"center"} marginTop="1%">
             <p className="prevent-select">
-              Page: {pageNumber}/{Math.ceil(props.data.length / 15)}
+              Page: {pageNumber}/{Math.ceil(props.data.length / itemLimit)}
             </p>
           </Box>
         </Paper>
@@ -104,7 +128,7 @@ const DynamicGridAllIng = (props: GridProps) => {
           <IconButton
             onClick={forwardPage}
             sx={{ height: "auto" }}
-            disabled={pageNumber == Math.ceil(props.data.length / 15)}
+            disabled={pageNumber == Math.ceil(props.data.length / itemLimit)}
           >
             <ArrowCircleRightIcon />
           </IconButton>

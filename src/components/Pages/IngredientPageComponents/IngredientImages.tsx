@@ -19,13 +19,14 @@ import DynamicGridInv from "./DynamicGridInv";
 import axios from "axios";
 import { SwipeableDrawer } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@mui/icons-material/Close";
 const useStyles = makeStyles({
   drawerPaper: {
     width: "100%",
     maxWidth: "100%",
     background: "#1e1e1e",
-    height: "100%",
-    maxHeight: "100%",
+    height: "60vh",
+    maxHeight: "60vh",
   },
 });
 export default function IngredientImages() {
@@ -137,13 +138,19 @@ export default function IngredientImages() {
       >
         <Box p={2}>
           <Box
-            justifyContent={"center"}
             alignItems="center"
             display="flex"
             marginBottom="2%"
+            width="100%"
           >
-            <Typography variant="h3">All available ingredients:</Typography>
+            <Typography variant="h3" sx={{ flexGrow: 1, textAlign: "center" }}>
+              All available ingredients:
+            </Typography>
+            <IconButton onClick={changeView}>
+              <CloseIcon />
+            </IconButton>
           </Box>
+
           <Box width={"100%"} justifyContent="center" display="flex">
             <DynamicGridAllIng
               data={ingredients}

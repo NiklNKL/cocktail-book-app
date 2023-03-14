@@ -7,6 +7,7 @@ import {
   JSXElementConstructor,
   ReactFragment,
   useState,
+  useEffect,
 } from "react";
 import { useIngredients } from "./IngredientServer";
 import IngredientBox from "./IngredientBox";
@@ -46,16 +47,45 @@ const DynamicGridInv = ({ data }: { data: any }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const classes = useStyles();
   console.log(data);
+  const [itemLimit, setItemLimit] = useState(18);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+      console.log(windowSize);
+    }
+    if (windowSize.width >= 2074) setItemLimit(26);
+    else if (windowSize.width < 2074 && windowSize.width > 1274)
+      setItemLimit(18);
+    else if (windowSize.width < 1274 && windowSize.width > 814)
+      setItemLimit(10);
+    else setItemLimit(4);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const forwardPage = () => {
-    setCurrentLimit(currentLimit + 15), setPageNumber(pageNumber + 1);
+    setCurrentLimit(currentLimit + itemLimit), setPageNumber(pageNumber + 1);
   };
   const BackwardPage = () => {
-    setCurrentLimit(currentLimit - 15), setPageNumber(pageNumber - 1);
+    setCurrentLimit(currentLimit - itemLimit), setPageNumber(pageNumber - 1);
   };
   return (
     <Box>
-      <Box display="flex" justifyContent={"center"}>
+      <Box
+        display="flex"
+        justifyContent={"center"}
+        paddingLeft="6%"
+        paddingRight="6%"
+      >
         <Box alignItems="center" justifyContent="center" display="flex">
           <IconButton
             onClick={BackwardPage}
@@ -68,7 +98,7 @@ const DynamicGridInv = ({ data }: { data: any }) => {
         <Paper sx={{ borderRadius: "25px", padding: "2%" }}>
           <Grid container className={classes.gridContainer} spacing={2}>
             {data
-              .slice(currentLimit, currentLimit + 15)
+              .slice(currentLimit, currentLimit + itemLimit)
               .map((ingredient: Ingredient) => (
                 <Grid item xs className={classes.gridItem} key={ingredient.id}>
                   <Box>
@@ -79,6 +109,7 @@ const DynamicGridInv = ({ data }: { data: any }) => {
                       id={ingredient.id}
                       image={ingredient.image}
                       ingredientName={ingredient.ingredientName}
+                      onCheckChange={() => null}
                     />
                   </Box>
                 </Grid>
@@ -86,7 +117,7 @@ const DynamicGridInv = ({ data }: { data: any }) => {
           </Grid>
           <Box display="flex" justifyContent={"center"}>
             <p className="prevent-select">
-              Page: {pageNumber}/{Math.ceil(data.length / 15)}
+              Page: {pageNumber}/{Math.ceil(data.length / itemLimit)}
             </p>
           </Box>
         </Paper>
@@ -94,7 +125,7 @@ const DynamicGridInv = ({ data }: { data: any }) => {
           <IconButton
             onClick={forwardPage}
             sx={{ height: "auto" }}
-            disabled={pageNumber == Math.ceil(data.length / 15)}
+            disabled={pageNumber == Math.ceil(data.length / itemLimit)}
           >
             <ArrowCircleRightIcon />
           </IconButton>
