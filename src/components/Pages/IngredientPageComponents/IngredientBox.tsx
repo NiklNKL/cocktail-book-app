@@ -7,14 +7,15 @@ import Favorite from "@mui/icons-material/Favorite";
 import "./ingHover.css";
 import axios from "axios";
 
-export interface Ingredient {
+export interface IngredientProps {
   id: Key;
   image: string;
   ingredientName: string;
+  onCheckChange: (checked: boolean | null) => void;
 }
 
-const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
-  const [inventory, setInventory] = useState<Ingredient[]>([]);
+const IngredientBox = (props: IngredientProps) => {
+  const [inventory, setInventory] = useState<IngredientProps[]>([]);
   const [checked, setChecked] = useState<boolean | null>(null);
   const [checkForAcc, setCheckForAccount] = useState(
     localStorage.getItem("access_token") != null
@@ -48,7 +49,7 @@ const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
       localStorage.getItem("access_token") != null
     ) {
       if (inventory.length > 0) {
-        const exists = checkIfIdExists(id.toString());
+        const exists = checkIfIdExists(props.id.toString());
         setChecked(exists);
       }
     }
@@ -68,13 +69,14 @@ const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
       handleAddInv();
     }
     setChecked(event.target.checked);
+    props.onCheckChange(checked);
   };
 
   const handleAddInv = async () => {
     try {
       await axios.post(
         "https://api.smartinies.recipes/addToInventory",
-        { id },
+        { id: props.id },
         { headers: headers }
       );
 
@@ -88,7 +90,7 @@ const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
     try {
       await axios.post(
         "https://api.smartinies.recipes/removeFromInventory",
-        { id },
+        { id: props.id },
         { headers: headers }
       );
 
@@ -101,8 +103,8 @@ const IngredientBox = ({ id, image, ingredientName }: Ingredient) => {
   return (
     <Box className="ingContainer">
       <img
-        src={image}
-        alt={ingredientName}
+        src={props.image}
+        alt={props.ingredientName}
         draggable="false"
         className="ingImage"
       />

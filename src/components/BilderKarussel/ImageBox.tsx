@@ -45,7 +45,7 @@ const ImageBox = forwardRef<
           console.error(error);
         });
     }
-  }, []);
+  }, [checked]);
 
   useEffect(() => {
     if (

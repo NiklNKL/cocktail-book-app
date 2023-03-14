@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, makeStyles } from "@material-ui/core";
 import { Photo } from "@material-ui/icons";
-import { Box, IconButton, Paper } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import {
   Key,
   ReactElement,
@@ -23,32 +23,43 @@ const useStyles = makeStyles({
   },
   gridItem: {
     padding: "1%",
-    witdth: "220px",
-    height: "250px",
+    witdth: "200px",
+    height: "200px",
     textAlign: "center",
+    marginLeft: "1%",
+    marginRight: "1%",
+    marginBottom: "1%",
   },
 });
 
-interface Props {
-  data: [];
-}
 export interface Ingredient {
   id: Key;
   image: string;
   ingredientName: string;
 }
 
-const DynamicGridAllIng = ({ data }: { data: any }) => {
+type GridProps = {
+  onCheckChange: (input: boolean | null) => void;
+  data: any;
+};
+
+const DynamicGridAllIng = (props: GridProps) => {
+  const [update, setUpdate] = useState<boolean | null>(false);
   const [currentLimit, setCurrentLimit] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const classes = useStyles();
-  console.log(data);
+  console.log(props.data);
 
   const forwardPage = () => {
-    setCurrentLimit(currentLimit + 10), setPageNumber(pageNumber + 1);
+    setCurrentLimit(currentLimit + 15), setPageNumber(pageNumber + 1);
   };
   const BackwardPage = () => {
-    setCurrentLimit(currentLimit - 10), setPageNumber(pageNumber - 1);
+    setCurrentLimit(currentLimit - 15), setPageNumber(pageNumber - 1);
+  };
+
+  const handleCheckChange = (input: boolean | null) => {
+    setUpdate(!input);
+    props.onCheckChange(update);
   };
   return (
     <Box width={"70%"}>
@@ -64,24 +75,28 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
         </Box>
         <Paper sx={{ borderRadius: "25px", padding: "2%" }}>
           <Grid container className={classes.gridContainer} spacing={2}>
-            {data
-              .slice(currentLimit, currentLimit + 10)
+            {props.data
+              .slice(currentLimit, currentLimit + 15)
               .map((ingredient: Ingredient) => (
                 <Grid item xs className={classes.gridItem} key={ingredient.id}>
                   <Box>
-                    <h3>{ingredient.ingredientName}</h3>
+                    <Box marginBottom={"5%"}>
+                      <Typography>{ingredient.ingredientName}</Typography>
+                    </Box>
+
                     <IngredientBox
                       id={ingredient.id}
                       image={ingredient.image}
                       ingredientName={ingredient.ingredientName}
+                      onCheckChange={handleCheckChange}
                     />
                   </Box>
                 </Grid>
               ))}
           </Grid>
-          <Box display="flex" justifyContent={"center"}>
+          <Box display="flex" justifyContent={"center"} marginTop="1%">
             <p className="prevent-select">
-              Page: {pageNumber}/{Math.ceil(data.length / 10)}
+              Page: {pageNumber}/{Math.ceil(props.data.length / 15)}
             </p>
           </Box>
         </Paper>
@@ -89,14 +104,14 @@ const DynamicGridAllIng = ({ data }: { data: any }) => {
           <IconButton
             onClick={forwardPage}
             sx={{ height: "auto" }}
-            disabled={pageNumber == Math.ceil(data.length / 10)}
+            disabled={pageNumber == Math.ceil(props.data.length / 15)}
           >
             <ArrowCircleRightIcon />
           </IconButton>
         </Box>
       </Box>
       <Box display="flex" justifyContent={"center"} alignItems="flex-end">
-        <p>Available Ingredients: {data.length}</p>
+        <p>Available Ingredients: {props.data.length}</p>
       </Box>
     </Box>
   );

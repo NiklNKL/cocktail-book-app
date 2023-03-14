@@ -23,6 +23,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import IngredientsPage from "../Pages/IngredientsPage";
 import { useNavigate } from "react-router-dom";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import HomeIcon from "@mui/icons-material/Home";
 
 const drawerWidth = 240;
 
@@ -123,12 +124,12 @@ export default function PersistentDrawerLeft() {
 
         <Button
           variant="text"
-          startIcon={<LiquorIcon />}
+          startIcon={<HomeIcon />}
           color="inherit"
           size="large"
-          href="/ingredients"
+          href="/"
         >
-          {"Ingredients"}
+          {"Home"}
         </Button>
         <Button
           disabled={!loggedIn}
@@ -143,11 +144,12 @@ export default function PersistentDrawerLeft() {
         <Button
           disabled={!loggedIn}
           variant="text"
-          startIcon={<InventoryIcon />}
+          startIcon={<LiquorIcon />}
           color="inherit"
           size="large"
+          href="/ingredients"
         >
-          {"Homebar"}
+          {"Ingredients"}
         </Button>
         <Divider />
       </Drawer>

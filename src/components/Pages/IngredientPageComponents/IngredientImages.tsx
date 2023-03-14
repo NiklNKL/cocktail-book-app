@@ -23,16 +23,17 @@ const useStyles = makeStyles({
   drawerPaper: {
     width: "100%",
     maxWidth: "100%",
-    background: "red",
+    background: "#1e1e1e",
+    height: "100%",
+    maxHeight: "100%",
   },
 });
 export default function IngredientImages() {
   const [pageNumber, setPageNumber] = useState(1);
   const [currentImg, setCurrentImg] = useState(0);
   const [inventory, setInventory] = useState([]);
-  const [showFav, setShowFav] = useState(true);
-  const [openFav, setOpenFav] = useState(true);
   const [openAll, setOpenAll] = useState(false);
+  const [update, setUpdate] = useState<boolean | null>(false);
   const classes = useStyles();
 
   const headers = {
@@ -64,34 +65,10 @@ export default function IngredientImages() {
     }
   }, []);
   const changeView = () => {
-    // "setShowFav(!showFav);";
-    setOpenFav(!openFav);
     setOpenAll(!openAll);
   };
-  const selectList = () => {
-    if (showFav) {
-      return (
-        <Box width={"100%"} justifyContent="center" display="flex">
-          <DynamicGridInv data={inventory} />
-          <Button onClick={changeView}>Add new ingredients:</Button>
-        </Box>
-      );
-    } else {
-      return (
-        <Box
-          width={"100%"}
-          justifyContent="center"
-          display="flex"
-          marginTop={"2%"}
-        >
-          <DynamicGridAllIng data={ingredients} />
-          <Button onClick={changeView}>Add new ingredients:</Button>
-        </Box>
-      );
-    }
-  };
 
-  const { data: ingredients = [], isLoading } = useIngredients();
+  const { data: ingredients = [], isLoading } = useIngredients(update);
   if (isLoading)
     return (
       <Box
@@ -104,39 +81,38 @@ export default function IngredientImages() {
         <CircularProgress />;
       </Box>
     );
+
+  const handleCheckChange = (input: boolean | null) => {
+    setUpdate(!input);
+  };
   return (
-    <Box>
-      {/* <Box width={"100%"} justifyContent="center" display="flex">
+    <Box paddingTop={"5%"}>
+      <Box
+        justifyContent={"center"}
+        alignItems="center"
+        display="flex"
+        marginBottom="2%"
+      >
+        <Typography variant="h3">Your Ingredients at Home:</Typography>
+      </Box>
+
+      <Box width={"100%"} justifyContent="center" display="flex">
         <DynamicGridInv data={inventory} />
       </Box>
+
       <Box
-        width={"100%"}
-        justifyContent="center"
+        justifyContent={"center"}
+        alignItems="center"
         display="flex"
         marginTop={"2%"}
       >
-        <DynamicGridAllIng data={ingredients} />
-      </Box> */}
-      {/* {selectList()} */}
-      <Button onClick={changeView}>Test</Button>
+        <Button onClick={changeView} variant="contained">
+          Browse all Ingredients
+        </Button>
+      </Box>
+
       <SwipeableDrawer
-        anchor={"right"}
-        open={openFav}
-        onClose={() => setOpenFav(false)}
-        onOpen={() => setOpenFav(true)}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Box p={2}>
-          <Button onClick={changeView}>Show all Items</Button>
-          <Box width={"100%"} justifyContent="center" display="flex">
-            <DynamicGridInv data={inventory} />
-          </Box>
-        </Box>
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor={"left"}
+        anchor={"bottom"}
         open={openAll}
         onClose={() => setOpenAll(false)}
         onOpen={() => setOpenAll(true)}
@@ -145,9 +121,19 @@ export default function IngredientImages() {
         }}
       >
         <Box p={2}>
-          <Button onClick={changeView}>Show Inventory</Button>
+          <Box
+            justifyContent={"center"}
+            alignItems="center"
+            display="flex"
+            marginBottom="2%"
+          >
+            <Typography variant="h3">All available ingredients:</Typography>
+          </Box>
           <Box width={"100%"} justifyContent="center" display="flex">
-            <DynamicGridAllIng data={ingredients} />
+            <DynamicGridAllIng
+              data={ingredients}
+              onCheckChange={handleCheckChange}
+            />
           </Box>
         </Box>
       </SwipeableDrawer>

@@ -15,7 +15,13 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import { Search } from "@mui/icons-material";
 
-export default function Images({ search }: { search: string }) {
+export default function Images({
+  search,
+  checked,
+}: {
+  search: string;
+  checked: boolean;
+}) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
@@ -95,7 +101,10 @@ export default function Images({ search }: { search: string }) {
     setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
     setResetScroll(true);
   };
-  const { data: drinks = [], isLoading } = useDrinks({ search: search });
+  const { data: drinks = [], isLoading } = useDrinks({
+    search: search,
+    checked: checked,
+  });
   if (isLoading)
     return (
       <Box
@@ -105,11 +114,11 @@ export default function Images({ search }: { search: string }) {
         justifyContent="center"
         alignItems="center"
       >
-        <CircularProgress />;
+        <CircularProgress />
       </Box>
     );
   return (
-    <Box height="90%" marginTop="7%" paddingTop="3%" paddingBottom="4%">
+    <Box height="auto" marginTop="7%" paddingTop="3%" paddingBottom="4%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
