@@ -29,21 +29,25 @@ export async function listIngredients(update: boolean | null) {
 
   const access_token = localStorage.getItem("access_token");
   if (access_token) {
-    const inventory = await axios.get(
-      "https://api.smartinies.recipes/inventory",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + access_token,
-        },
-      }
-    );
-    const filteredIngredients = ingredients.filter((ingredient) => {
-      return !inventory.data.some(
-        (item: Ingredient) => item.id === ingredient.id
+    try {
+      const inventory = await axios.get(
+        "https://api.smartinies.recipes/inventory",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + access_token,
+          },
+        }
       );
-    });
-    return filteredIngredients;
+      const filteredIngredients = ingredients.filter((ingredient) => {
+        return !inventory.data.some(
+          (item: Ingredient) => item.id === ingredient.id
+        );
+      });
+      return filteredIngredients;
+    } catch (error) {
+      console.log("No items found");
+    }
   }
   return ingredients;
 }

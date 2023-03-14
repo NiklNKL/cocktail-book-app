@@ -34,6 +34,7 @@ export default function IngredientImages() {
   const [inventory, setInventory] = useState([]);
   const [openAll, setOpenAll] = useState(false);
   const [update, setUpdate] = useState<boolean | null>(false);
+  const [invAvailable, setInvAvailable] = useState(false);
   const classes = useStyles();
 
   const headers = {
@@ -58,9 +59,11 @@ export default function IngredientImages() {
         })
         .then((response) => {
           setInventory(response.data);
+          setInvAvailable(true);
         })
         .catch((error) => {
           console.error(error);
+          setInvAvailable(false);
         });
     }
   }, []);
@@ -93,11 +96,23 @@ export default function IngredientImages() {
         display="flex"
         marginBottom="2%"
       >
-        <Typography variant="h3">Your Ingredients at Home:</Typography>
+        {invAvailable ? (
+          <Typography variant="h3">Your Ingredients at Home:</Typography>
+        ) : (
+          <Typography variant="h3">
+            You don't have any Ingredients yet...
+          </Typography>
+        )}
       </Box>
 
       <Box width={"100%"} justifyContent="center" display="flex">
-        <DynamicGridInv data={inventory} />
+        {invAvailable ? (
+          <DynamicGridInv data={inventory} />
+        ) : (
+          <Typography variant="h5">
+            Start to add Ingredients by pressing the button below!
+          </Typography>
+        )}
       </Box>
 
       <Box
