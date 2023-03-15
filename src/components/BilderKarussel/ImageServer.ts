@@ -12,9 +12,6 @@ export interface Drink {
 }
 
 export async function listDrinks({ search, checked }: DrinkSearchParams) {
-  // try {
-  console.log("ImageServer" + search);
-
   let response = null;
 
   if (search != "") {
@@ -32,16 +29,6 @@ export async function listDrinks({ search, checked }: DrinkSearchParams) {
   } else {
     response = await axios.get("https://api.smartinies.recipes/randomList");
   }
-
-  // const res = await fetch(url, {headers:{header, "Content-Type":"application/json"}, body:JSON.stringify({body}), method:"http-methods"})
-  // const data = await res.json()
-  // }
-  // catch(error){
-
-  // }
-  // finally{
-  //     //Wird immer ausgeführt, sowas wie setloading = false
-  // }
 
   await new Promise((resolve) => setTimeout(resolve, 500));
 

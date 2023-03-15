@@ -113,7 +113,6 @@ export default function AppBarElement(props: AppBarProps) {
   const handleSearchValueChange = (input: string) => {
     setSearchValue(input);
     props.onSearchValueChange(input);
-    console.log("AppBar" + input);
   };
 
   return (

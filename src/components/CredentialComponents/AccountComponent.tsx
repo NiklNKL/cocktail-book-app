@@ -204,6 +204,12 @@ export default function AccountPage({
         </CssVarsProvider>
       </Box>
     );
+  } else {
+    return (
+      <Box>
+        <h1>Error</h1>
+      </Box>
+    );
   }
 }
 

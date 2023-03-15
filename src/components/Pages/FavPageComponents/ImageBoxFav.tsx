@@ -17,10 +17,10 @@ interface Cocktail {
 
 const ImageBox = forwardRef<
   HTMLImageElement,
-  { source: string; alt: string; id: string }
->(({ source, alt, id }, ref) => {
+  { source: string; alt: string; id: string; isFav: boolean }
+>(({ source, alt, id, isFav }, ref) => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
-  const [checked, setChecked] = useState<boolean | null>(null);
+  const [checked, setChecked] = useState<boolean | null>(isFav);
   const [checkForAcc, setCheckForAccount] = useState(
     localStorage.getItem("access_token") != null
   );
@@ -29,60 +29,18 @@ const ImageBox = forwardRef<
     Authorization: "Bearer " + localStorage.getItem("access_token"),
   };
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
-    ) {
-      axios
-        .get("https://api.smartinies.recipes/favourites", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        })
-        .then((response) => {
-          setCocktails(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
-    ) {
-      if (cocktails.length > 0) {
-        const exists = checkIfIdExists(id);
-        setChecked(exists);
-      }
-    }
-  }, [cocktails]);
-
-  function checkIfIdExists(idString: string): boolean {
-    const id = parseInt(idString);
-    return cocktails.some((cocktail) => cocktail.id === id);
-  }
-
-  // const [checked, setChecked] = useState<boolean>(false);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
-      console.log("Fav removed");
       handleRemoveFav();
     } else {
-      console.log("Fav added");
       handleAddFav();
     }
     setChecked(event.target.checked);
-    console.log(checkIfIdExists(id));
   };
 
   const handleAddFav = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.smartinies.recipes/addFavourite",
         { id },
         { headers: headers }
@@ -96,7 +54,7 @@ const ImageBox = forwardRef<
 
   const handleRemoveFav = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.smartinies.recipes/removeFavourite",
         { id },
         { headers: headers }
