@@ -3,6 +3,7 @@ import axios from "axios";
 
 export interface DrinkSearchParams {
   search: string;
+  checked: boolean;
 }
 export interface Drink {
   id: string;
@@ -10,7 +11,7 @@ export interface Drink {
   imgsrc: string;
 }
 
-export async function listDrinks({ search }: DrinkSearchParams) {
+export async function listDrinks({ search, checked }: DrinkSearchParams) {
   // try {
   console.log("ImageServer" + search);
 
@@ -20,10 +21,16 @@ export async function listDrinks({ search }: DrinkSearchParams) {
     response = await axios.get(
       `https://api.smartinies.recipes/list?contains=${search}`
     );
+  } else if (checked) {
+    response = await axios.get("https://api.smartinies.recipes/listPossible", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
+    console.log("is pressed");
   } else {
-    response = await axios.get(
-      "https://api.smartinies.recipes/randomList"
-    );
+    response = await axios.get("https://api.smartinies.recipes/randomList");
   }
 
   // const res = await fetch(url, {headers:{header, "Content-Type":"application/json"}, body:JSON.stringify({body}), method:"http-methods"})

@@ -4,6 +4,7 @@ import {
   Stack,
   Button,
   IconButton,
+  Typography,
 } from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
@@ -16,8 +17,10 @@ import { Search } from "@mui/icons-material";
 
 export default function Images({
   search,
+  checked,
 }: {
   search: string;
+  checked: boolean;
 }) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
@@ -90,7 +93,6 @@ export default function Images({
     scrollContainerRef.current.scrollLeft = currentScrollX - scrollAmount * 2.5;
   }, [currentScrollX, scrollAmount]);
 
-
   const forwardPage = () => {
     setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
     setResetScroll(true);
@@ -99,7 +101,10 @@ export default function Images({
     setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
     setResetScroll(true);
   };
-  const { data: drinks = [], isLoading } = useDrinks({ search: search });
+  const { data: drinks = [], isLoading } = useDrinks({
+    search: search,
+    checked: checked,
+  });
   if (isLoading)
     return (
       <Box
@@ -109,11 +114,11 @@ export default function Images({
         justifyContent="center"
         alignItems="center"
       >
-        <CircularProgress />;
+        <CircularProgress />
       </Box>
     );
   return (
-    <Box height="100%">
+    <Box height="auto" marginTop="7%" paddingTop="3%" paddingBottom="4%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
@@ -121,12 +126,23 @@ export default function Images({
           overflow="auto"
           height={"56vh"}
           className="scroll"
-          top="20%"
           ref={(ref: any) => {
             scrollContainerRef.current = ref;
           }}
         >
-          {drinks.slice(currentImg, currentImg + 20).map((drink, index) => (
+          <Box
+            marginRight="1%"
+            marginLeft="9%"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center"
+            display="flex"
+          >
+            <Typography variant="h1" align="right" alignSelf="center">
+              Grab your drink:
+            </Typography>
+          </Box>
+          {drinks.slice(currentImg, currentImg + 50).map((drink, index) => (
             <ImageBox
               source={drink.imgsrc}
               alt={drink.name}
@@ -140,22 +156,17 @@ export default function Images({
         </Stack>
       </Box>
       <Box display="flex" justifyContent={"center"}>
-        <Box marginTop="120px" marginRight="20px" display="flex">
+        <Box marginRight="1%" display="flex">
           <IconButton onClick={BackwardPage} disabled={pageNumber == 1}>
             <ArrowCircleLeftIcon />
           </IconButton>
         </Box>
-        <Box marginTop="120px" display="flex" justifyContent={"end"}>
+        <Box display="flex" justifyContent={"end"}>
           <p className="prevent-select">
             Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
           </p>
         </Box>
-        <Box
-          marginTop="120px"
-          display="flex"
-          justifyContent={"end"}
-          marginLeft="20px"
-        >
+        <Box display="flex" justifyContent={"end"} marginLeft="1%">
           <IconButton
             onClick={forwardPage}
             disabled={pageNumber == Math.ceil(drinks.length / 50)}
