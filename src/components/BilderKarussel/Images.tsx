@@ -2,34 +2,36 @@ import {
   Box,
   CircularProgress,
   Stack,
-  Button,
   IconButton,
   Typography,
+  Checkbox,
 } from "@mui/material";
 import ImageBox from "./ImageBox";
 import "./hover.css";
 import { useEffect, useState, useMemo, useRef } from "react";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import { useDrinks } from "./ImageServer";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import { Search } from "@mui/icons-material";
+import axios from "axios";
 
-export default function Images({
-  search,
-  checked,
-}: {
-  search: string;
-  checked: boolean;
-}) {
+interface Cocktail {
+  cocktailName: string;
+  id: number;
+  image: string;
+  instructions: string;
+}
+
+export default function Images({ search }: { search: string }) {
   const [currentMouseX, setCurrentMouseX] = useState(0);
   const [startClickX, setStartClickX] = useState<number | null>(null);
   const [currentScrollX, setCurrentScrollX] = useState(0);
   const imageWrapperRef = useRef<HTMLElement[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [currentImg, setCurrentImg] = useState(0);
-
+  const [checked, setChecked] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+  const imagesLoaded = 50;
 
   useEffect(() => {
     if (resetScroll) {
@@ -48,7 +50,6 @@ export default function Images({
       if (!element) continue;
       element.style.objectPosition = `${percentage * 100}% 0`;
     }
-    console.log("Images" + search);
   };
 
   useEffect(() => {
@@ -94,13 +95,45 @@ export default function Images({
   }, [currentScrollX, scrollAmount]);
 
   const forwardPage = () => {
-    setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
+    setCurrentImg(currentImg + imagesLoaded), setPageNumber(pageNumber + 1);
     setResetScroll(true);
   };
   const BackwardPage = () => {
-    setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
+    setCurrentImg(currentImg - imagesLoaded), setPageNumber(pageNumber - 1);
     setResetScroll(true);
   };
+  const handleChange = () => {
+    setChecked(!checked);
+  };
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + localStorage.getItem("access_token"),
+  };
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("access_token") != undefined &&
+      localStorage.getItem("access_token") != null
+    ) {
+      axios
+        .get("https://api.smartinies.recipes/favourites", {
+          headers: headers,
+        })
+        .then((response) => {
+          setCocktails(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          setCocktails([]);
+        });
+    }
+  }, [checked]);
+
+  function checkIfIdExists(idString: string): boolean {
+    const id = parseInt(idString);
+    return cocktails.some((cocktail) => cocktail.id === id);
+  }
   const { data: drinks = [], isLoading } = useDrinks({
     search: search,
     checked: checked,
@@ -108,17 +141,17 @@ export default function Images({
   if (isLoading)
     return (
       <Box
-        height="100%"
-        width="100%"
-        display="flex"
+        height="99vh"
+        width="99vw"
         justifyContent="center"
+        display={"flex"}
         alignItems="center"
       >
         <CircularProgress />
       </Box>
     );
   return (
-    <Box height="auto" marginTop="7%" paddingTop="3%" paddingBottom="4%">
+    <Box height="auto" marginTop="7%" paddingTop="3%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
@@ -142,17 +175,38 @@ export default function Images({
               Grab your drink:
             </Typography>
           </Box>
-          {drinks.slice(currentImg, currentImg + 50).map((drink, index) => (
-            <ImageBox
-              source={drink.imgsrc}
-              alt={drink.name}
-              key={drink.name}
-              id={drink.id}
-              ref={(ref: HTMLImageElement) => {
-                imageWrapperRef.current[index] = ref;
-              }}
-            />
-          ))}
+          {drinks
+            .slice(currentImg, currentImg + imagesLoaded)
+            .map((drink, index) => {
+              if (cocktails.length > 0) {
+                const exists = checkIfIdExists(drink.id);
+                return (
+                  <ImageBox
+                    source={drink.imgsrc}
+                    alt={drink.name}
+                    key={drink.name}
+                    id={drink.id}
+                    isFav={exists}
+                    ref={(ref: HTMLImageElement) => {
+                      imageWrapperRef.current[index] = ref;
+                    }}
+                  />
+                );
+              } else {
+                return (
+                  <ImageBox
+                    source={drink.imgsrc}
+                    alt={drink.name}
+                    key={drink.name}
+                    id={drink.id}
+                    isFav={false}
+                    ref={(ref: HTMLImageElement) => {
+                      imageWrapperRef.current[index] = ref;
+                    }}
+                  />
+                );
+              }
+            })}
         </Stack>
       </Box>
       <Box display="flex" justifyContent={"center"}>
@@ -163,13 +217,13 @@ export default function Images({
         </Box>
         <Box display="flex" justifyContent={"end"}>
           <p className="prevent-select">
-            Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
+            Page: {pageNumber}/{Math.ceil(drinks.length / imagesLoaded)}
           </p>
         </Box>
         <Box display="flex" justifyContent={"end"} marginLeft="1%">
           <IconButton
             onClick={forwardPage}
-            disabled={pageNumber == Math.ceil(drinks.length / 50)}
+            disabled={pageNumber == Math.ceil(drinks.length / imagesLoaded)}
           >
             <ArrowCircleRightIcon />
           </IconButton>
@@ -177,6 +231,10 @@ export default function Images({
       </Box>
       <Box display="flex" justifyContent={"center"} alignItems="flex-end">
         <p>Available Drinks: {drinks.length}</p>
+      </Box>
+      <Box display="flex" justifyContent={"center"} alignItems="center">
+        <Typography>Only use available ingredients: </Typography>
+        <Checkbox checked={checked} onClick={handleChange}></Checkbox>
       </Box>
     </Box>
   );

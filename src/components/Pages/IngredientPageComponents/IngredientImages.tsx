@@ -90,7 +90,7 @@ export default function IngredientImages() {
     setUpdate(!input);
   };
   return (
-    <Box paddingTop={"5%"}>
+    <Box>
       <Box
         justifyContent={"center"}
         alignItems="center"

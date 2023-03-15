@@ -113,5 +113,11 @@ export default function CredentialComponent() {
         </main>
       </CssVarsProvider>
     );
+  } else {
+    return (
+      <Box>
+        <h1>Error</h1>
+      </Box>
+    );
   }
 }

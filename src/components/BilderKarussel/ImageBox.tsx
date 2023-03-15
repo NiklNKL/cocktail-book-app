@@ -17,10 +17,10 @@ interface Cocktail {
 
 const ImageBox = forwardRef<
   HTMLImageElement,
-  { source: string; alt: string; id: string }
->(({ source, alt, id }, ref) => {
+  { source: string; alt: string; id: string; isFav: boolean }
+>(({ source, alt, id, isFav }, ref) => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
-  const [checked, setChecked] = useState<boolean | null>(null);
+  const [checked, setChecked] = useState<boolean | null>(isFav);
   const [checkForAcc, setCheckForAccount] = useState(
     localStorage.getItem("access_token") != null
   );
@@ -28,43 +28,6 @@ const ImageBox = forwardRef<
     "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("access_token"),
   };
-
-  useEffect(() => {
-    if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
-    ) {
-      axios
-        .get("https://api.smartinies.recipes/favourites", {
-          headers: headers,
-        })
-        .then((response) => {
-          setCocktails(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [checked]);
-
-  useEffect(() => {
-    if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
-    ) {
-      if (cocktails.length > 0) {
-        const exists = checkIfIdExists(id);
-        setChecked(exists);
-      }
-    }
-  }, [cocktails]);
-
-  function checkIfIdExists(idString: string): boolean {
-    const id = parseInt(idString);
-    return cocktails.some((cocktail) => cocktail.id === id);
-  }
-
-  // const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (checked) {
