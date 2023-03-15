@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Gloria Hallelujah";
+  src: url("./GloriaHallelujah-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Patrick";
+  src: url("./PatrickHand-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "WalterTurncoat";
+  src: url("./WalterTurncoat-Regular.ttf") format("truetype");
+}
