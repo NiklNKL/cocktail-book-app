@@ -1,32 +1,21 @@
-import { Box, Button } from "@mui/material";
-import { useState } from "react";
-import { useEffect } from "react";
-import { forwardRef } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { Box, Button, Checkbox } from "@mui/material";
+import { useState, forwardRef } from "react";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import "./hoverFav.css";
 import axios from "axios";
 
-interface Cocktail {
-  cocktailName: string;
-  id: number;
-  image: string;
-  instructions: string;
-}
-
 const ImageBox = forwardRef<
   HTMLImageElement,
   { source: string; alt: string; id: string; isFav: boolean }
 >(({ source, alt, id, isFav }, ref) => {
-  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [checked, setChecked] = useState<boolean | null>(isFav);
   const [checkForAcc, setCheckForAccount] = useState(
-    localStorage.getItem("access_token") != null
+    sessionStorage.getItem("access_token") != null
   );
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

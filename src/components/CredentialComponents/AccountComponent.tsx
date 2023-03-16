@@ -1,18 +1,10 @@
 import * as React from "react";
 import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
-import Sheet from "@mui/joy/Sheet";
-import Typography from "@mui/joy/Typography";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Input from "@mui/joy/Input";
-import Button from "@mui/joy/Button";
-import Link from "@mui/joy/Link";
-import { Mode } from "@mui/icons-material";
+import { Typography, FormControl, FormLabel, Input, Button } from "@mui/joy";
 import { useState } from "react";
 import axios from "axios";
-import { Box, colors } from "@mui/material";
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { useHref } from "react-router-dom";
 
 export default function AccountPage({
   setToken,
@@ -27,7 +19,7 @@ export default function AccountPage({
   const [passwordCheck, setPasswordCheck] = useState(false);
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
   const resetState = () => {
     setRemove(false);
@@ -40,7 +32,7 @@ export default function AccountPage({
       //   { headers: headers }
       // );
       setToken(false);
-      localStorage.removeItem("access_token");
+      sessionStorage.removeItem("access_token");
       window.location.reload();
     } catch (error) {}
   };
@@ -55,7 +47,7 @@ export default function AccountPage({
       setDeletionSuccess(true);
       setPasswordCheck(false);
       setToken(false);
-      localStorage.removeItem("access_token");
+      sessionStorage.removeItem("access_token");
       window.location.reload();
       // Redirect to the home page or a protected route
     } catch (error) {

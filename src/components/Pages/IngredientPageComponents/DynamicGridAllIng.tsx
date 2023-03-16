@@ -1,15 +1,6 @@
-import { CircularProgress, Grid, makeStyles } from "@material-ui/core";
-import { Photo } from "@material-ui/icons";
+import { Grid, makeStyles } from "@material-ui/core";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
-import {
-  Key,
-  ReactElement,
-  JSXElementConstructor,
-  ReactFragment,
-  useState,
-  useEffect,
-} from "react";
-import { useIngredients } from "./IngredientServer";
+import { useState, useEffect } from "react";
 import IngredientBox from "./IngredientBox";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -90,13 +81,13 @@ const DynamicGridAllIng = (props: GridProps) => {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   useEffect(() => {
     if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
+      sessionStorage.getItem("access_token") != undefined &&
+      sessionStorage.getItem("access_token") != null
     ) {
       axios
         .get("https://api.smartinies.recipes/inventory", {

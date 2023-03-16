@@ -1,10 +1,8 @@
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Key, useEffect, useState } from "react";
-import { invariant } from "@remix-run/router/dist/history";
 
 export interface Ingredient {
-  id: Key;
+  id: number;
   image: string;
   ingredientName: string;
 }
@@ -27,7 +25,7 @@ export async function listIngredients(update: boolean | null) {
     ingredients.push(ingredient);
   }
 
-  const access_token = localStorage.getItem("access_token");
+  const access_token = sessionStorage.getItem("access_token");
   if (access_token) {
     try {
       const inventory = await axios.get(

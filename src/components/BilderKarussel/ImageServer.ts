@@ -22,7 +22,7 @@ export async function listDrinks({ search, checked }: DrinkSearchParams) {
     response = await axios.get("https://api.smartinies.recipes/listPossible", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
+        Authorization: "Bearer " + sessionStorage.getItem("access_token"),
       },
     });
     console.log("is pressed");
