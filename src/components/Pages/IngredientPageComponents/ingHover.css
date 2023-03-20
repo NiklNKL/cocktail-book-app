@@ -5,9 +5,9 @@
 .ingImage {
   opacity: 1;
   display: auto;
-  width: 9vh;
+  width: 6vw;
 
-  height: 9vh;
+  height: 14vh;
 
   object-fit: cover;
   object-position: 50%;

@@ -1,32 +1,9 @@
-import * as React from "react";
-import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
-import Sheet from "@mui/joy/Sheet";
-import Typography from "@mui/joy/Typography";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Input from "@mui/joy/Input";
-import Button from "@mui/joy/Button";
-import Link from "@mui/joy/Link";
-import { Mode } from "@mui/icons-material";
+import { CssVarsProvider } from "@mui/joy/styles";
+import { Typography, FormControl, FormLabel, Input, Button } from "@mui/joy";
 import { useState } from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-
-// export interface Credentials {
-//   email: string;
-//   password: string;
-// }
-
-// async function loginUser({ email, password }: Credentials) {
-//   return fetch("https://api.smartinies.recipes/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({email, password}),
-//   }).then((data) => data.json());
-// }
 
 export default function LogInPage({
   setToken,
@@ -51,8 +28,8 @@ export default function LogInPage({
         "https://api.smartinies.recipes/login",
         { email, password }
       );
-      localStorage.setItem("access_token", response.data.access_token);
-      localStorage.setItem("user_name", response.data.name);
+      sessionStorage.setItem("access_token", response.data.access_token);
+      sessionStorage.setItem("user_name", response.data.name);
       setToken(response.data.access_token);
       setExists(true);
       window.location.reload();

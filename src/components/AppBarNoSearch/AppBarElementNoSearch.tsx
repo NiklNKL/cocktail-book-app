@@ -1,20 +1,17 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  MenuItem,
+  Menu,
+  Link,
+  Popover,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "../AppBar/SideBar";
-import Link from "@mui/material/Link";
-import LogInPage from "../CredentialComponents/LogInComponent";
 import CredentialComponent from "../CredentialComponents/CredentialPopup";
-import { Popover } from "@mui/material";
-import { useState } from "react";
 
 export default function AppBarElement() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -42,7 +39,7 @@ export default function AppBarElement() {
   };
 
   const color = () => {
-    if (localStorage.getItem("access_token") == undefined) {
+    if (sessionStorage.getItem("access_token") == undefined) {
       return "inherit";
     } else {
       return "success";

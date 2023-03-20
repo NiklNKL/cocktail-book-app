@@ -1,10 +1,24 @@
-import { Box, CircularProgress, IconButton, Stack } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import ImageBox from "./ImageBoxFav";
 import "./hoverFav.css";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useDrinks } from "./ImageServerFav";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import axios from "axios";
+
+interface Cocktail {
+  cocktailName: string;
+  id: number;
+  image: string;
+  instructions: string;
+}
 
 export default function Images() {
   const [currentMouseX, setCurrentMouseX] = useState(0);
@@ -13,8 +27,11 @@ export default function Images() {
   const imageWrapperRef = useRef<HTMLElement[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [currentImg, setCurrentImg] = useState(0);
-
+  const [checked, setChecked] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+  const imagesLoaded = 20;
+
   useEffect(() => {
     if (resetScroll) {
       scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
@@ -77,19 +94,48 @@ export default function Images() {
   }, [currentScrollX, scrollAmount]);
 
   const forwardPage = () => {
-    setCurrentImg(currentImg + 50), setPageNumber(pageNumber + 1);
+    setCurrentImg(currentImg + imagesLoaded), setPageNumber(pageNumber + 1);
     setResetScroll(true);
   };
   const BackwardPage = () => {
-    setCurrentImg(currentImg - 50), setPageNumber(pageNumber - 1);
+    setCurrentImg(currentImg - imagesLoaded), setPageNumber(pageNumber - 1);
     setResetScroll(true);
   };
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
+  };
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem("access_token") != undefined &&
+      sessionStorage.getItem("access_token") != null
+    ) {
+      axios
+        .get("https://api.smartinies.recipes/favourites", {
+          headers: headers,
+        })
+        .then((response) => {
+          setCocktails(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          setCocktails([]);
+        });
+    }
+  }, [checked]);
+
+  function checkIfIdExists(idString: string): boolean {
+    const id = parseInt(idString);
+    return cocktails.some((cocktail) => cocktail.id === id);
+  }
   const { data: drinks = [], isLoading } = useDrinks({ search: "" });
   if (isLoading)
     return (
       <Box
-        height="100%"
-        width="100%"
+        height="99vh"
+        width="99vw"
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -98,7 +144,7 @@ export default function Images() {
       </Box>
     );
   return (
-    <Box height="100%">
+    <Box height="auto" marginTop="7%" paddingTop="3%">
       <Box className="fadeout" height="56vh">
         <Stack
           direction="row"
@@ -106,44 +152,71 @@ export default function Images() {
           overflow="auto"
           height={"56vh"}
           className="scroll"
-          top="20%"
           ref={(ref: any) => {
             scrollContainerRef.current = ref;
           }}
         >
-          {drinks.slice(currentImg, currentImg + 20).map((drink, index) => (
-            <ImageBox
-              source={drink.imgsrc}
-              alt={drink.name}
-              key={drink.name}
-              id={drink.id}
-              ref={(ref: HTMLImageElement) => {
-                imageWrapperRef.current[index] = ref;
-              }}
-            />
-          ))}
+          <Box
+            marginRight="1%"
+            marginLeft="9%"
+            alignItems="center"
+            justifyContent="center"
+            justifyItems="center"
+            display="flex"
+          >
+            <Typography variant="h1" align="right" alignSelf="center">
+              Grab your drink:
+            </Typography>
+          </Box>
+          {drinks
+            .slice(currentImg, currentImg + imagesLoaded)
+            .map((drink, index) => {
+              if (cocktails.length > 0) {
+                const exists = checkIfIdExists(drink.id);
+                return (
+                  <ImageBox
+                    source={drink.imgsrc}
+                    alt={drink.name}
+                    key={drink.name}
+                    id={drink.id}
+                    isFav={exists}
+                    ref={(ref: HTMLImageElement) => {
+                      imageWrapperRef.current[index] = ref;
+                    }}
+                  />
+                );
+              } else {
+                return (
+                  <ImageBox
+                    source={drink.imgsrc}
+                    alt={drink.name}
+                    key={drink.name}
+                    id={drink.id}
+                    isFav={false}
+                    ref={(ref: HTMLImageElement) => {
+                      imageWrapperRef.current[index] = ref;
+                    }}
+                  />
+                );
+              }
+            })}
         </Stack>
       </Box>
       <Box display="flex" justifyContent={"center"}>
-        <Box marginTop="120px" marginRight="20px" display="flex">
+        <Box marginTop="1%" display="flex">
           <IconButton onClick={BackwardPage} disabled={pageNumber == 1}>
             <ArrowCircleLeftIcon />
           </IconButton>
         </Box>
-        <Box marginTop="120px" display="flex" justifyContent={"end"}>
+        <Box display="flex" justifyContent={"end"}>
           <p className="prevent-select">
-            Page: {pageNumber}/{Math.ceil(drinks.length / 50)}
+            Page: {pageNumber}/{Math.ceil(drinks.length / imagesLoaded)}
           </p>
         </Box>
-        <Box
-          marginTop="120px"
-          display="flex"
-          justifyContent={"end"}
-          marginLeft="20px"
-        >
+        <Box marginTop="1%" display="flex" justifyContent={"end"}>
           <IconButton
             onClick={forwardPage}
-            disabled={pageNumber == Math.ceil(drinks.length / 50)}
+            disabled={pageNumber == Math.ceil(drinks.length / imagesLoaded)}
           >
             <ArrowCircleRightIcon />
           </IconButton>

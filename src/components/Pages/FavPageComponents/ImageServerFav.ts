@@ -13,7 +13,7 @@ export interface Drink {
 export async function listDrinks({ search }: DrinkSearchParams) {
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   const data = await axios.get("https://api.smartinies.recipes/favourites", {
