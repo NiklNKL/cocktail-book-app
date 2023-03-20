@@ -1,19 +1,11 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import { useEffect } from "react";
 import { forwardRef } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import "./hover.css";
 import axios from "axios";
-
-interface Cocktail {
-  cocktailName: string;
-  id: number;
-  image: string;
-  instructions: string;
-}
 
 const ImageBox = forwardRef<
   HTMLImageElement,

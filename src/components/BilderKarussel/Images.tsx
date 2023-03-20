@@ -171,7 +171,13 @@ export default function Images({ search }: { search: string }) {
             justifyItems="center"
             display="flex"
           >
-            <Typography variant="h1" align="right" alignSelf="center">
+            <Typography
+              fontFamily={"Gloria Hallelujah"}
+              fontSize={110}
+              variant="h1"
+              align="right"
+              alignSelf="center"
+            >
               Grab your drink:
             </Typography>
           </Box>
@@ -229,11 +235,18 @@ export default function Images({ search }: { search: string }) {
           </IconButton>
         </Box>
       </Box>
-      <Box display="flex" justifyContent={"center"} alignItems="flex-end">
+      <Box
+        fontFamily={"Gloria Hallelujah"}
+        display="flex"
+        justifyContent={"center"}
+        alignItems="flex-end"
+      >
         <p>Available Drinks: {drinks.length}</p>
       </Box>
       <Box display="flex" justifyContent={"center"} alignItems="center">
-        <Typography>Only use available ingredients: </Typography>
+        <Typography fontSize={18} fontFamily={"Gloria Hallelujah"}>
+          Only use available ingredients:{" "}
+        </Typography>
         <Checkbox checked={checked} onClick={handleChange}></Checkbox>
       </Box>
     </Box>

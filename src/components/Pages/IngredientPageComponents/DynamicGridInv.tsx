@@ -195,7 +195,12 @@ const DynamicGridInv = ({ data }: { data: any }) => {
           </IconButton>
         </Box>
       </Box>
-      <Box display="flex" justifyContent={"center"} alignItems="flex-end">
+      <Box
+        fontFamily={"Gloria Hallelujah"}
+        display="flex"
+        justifyContent={"center"}
+        alignItems="flex-end"
+      >
         <p>Available Ingredients: {data.length}</p>
       </Box>
     </Box>

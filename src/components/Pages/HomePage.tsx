@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { useState } from "react";
 import AppBarElement from "../AppBar/AppBarElement";
 import Images from "../BilderKarussel/Images";
