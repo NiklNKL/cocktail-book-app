@@ -7,9 +7,7 @@ function FavouritesPage() {
   return (
     <Box height="100vh">
       <AppBarElementNoSearch />
-
       <Images />
-
       <FilterDrawer />
     </Box>
   );

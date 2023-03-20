@@ -1,7 +1,5 @@
-import { Box, Button } from "@mui/material";
-import { Key, useState } from "react";
-import { useEffect } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { Box, Checkbox } from "@mui/material";
+import { useState } from "react";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import "./ingHover.css";
@@ -18,11 +16,11 @@ export interface IngredientProps {
 const IngredientBox = (props: IngredientProps) => {
   const [checked, setChecked] = useState<boolean | null>(props.isFav);
   const [checkForAcc, setCheckForAccount] = useState(
-    localStorage.getItem("access_token") != null
+    sessionStorage.getItem("access_token") != null
   );
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

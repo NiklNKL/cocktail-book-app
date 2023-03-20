@@ -1,28 +1,12 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
+import { Box, Drawer, Divider, IconButton, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import TuneIcon from "@mui/icons-material/Tune";
 import LiquorIcon from "@mui/icons-material/Liquor";
-import LocalBarIcon from "@mui/icons-material/LocalBar";
-import WineBarIcon from "@mui/icons-material/WineBar";
 import { useState } from "react";
-import axios from "axios";
-import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import IngredientsPage from "../Pages/IngredientsPage";
-import { useNavigate } from "react-router-dom";
-import InventoryIcon from "@mui/icons-material/Inventory";
 import HomeIcon from "@mui/icons-material/Home";
 
 const drawerWidth = 240;
@@ -59,26 +43,10 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [loggedIn, setLoggedIn] = useState<boolean>(
-    localStorage.getItem("access_token") != null
+    sessionStorage.getItem("access_token") != null
   );
 
-  const navigate = useNavigate();
-
-  const [data, setData] = useState(null);
-
-  const handleButtonClickFilters = async () => {
-    const response = await axios.get(
-      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
-    );
-    setData(response.data);
-  };
-
-  const handleButtonClickFavCocktails = async () => {
-    const response = await axios.get(
-      "https://api.smartinies.recipes/random_list?startAt=0&numResults=19"
-    );
-    setData(response.data);
-  };
+  // const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);

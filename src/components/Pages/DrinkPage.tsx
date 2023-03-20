@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import { grey } from "@mui/material/colors";
@@ -13,7 +13,18 @@ interface IngredientGridProps {
   ingredientMeasure: string[];
 }
 
-const ingredientStyle = {
+interface Ingredient {
+  cocktailImage: string;
+  cocktailName: string;
+  id: number;
+  ingredientImages: [string];
+  ingredientMeasures: [string];
+  ingredients: [string];
+  instructions: string;
+  tags: [string];
+}
+
+const ingredientStyle: React.CSSProperties = {
   width: "40%",
   height: "40%",
   objectFit: "cover",
@@ -68,7 +79,7 @@ const paperStyle = {
 };
 
 export default function DrinkPage() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Ingredient>([]);
 
   const id = window.location.pathname.split("/").pop();
 
@@ -78,7 +89,6 @@ export default function DrinkPage() {
         const response = await axios.get(
           `https://api.smartinies.recipes/detail?cocktailID=${id}`
         );
-        //await new Promise((resolve) => setTimeout(resolve, 5000));
         setData(response.data);
       } catch (err) {
         console.log(err);
@@ -88,9 +98,6 @@ export default function DrinkPage() {
     fetchData();
   }, []);
 
-  console.log(data);
-
-  console.log(id);
   return (
     <Paper style={styles.paperContainer}>
       <Box height="100vh" marginBottom="2%">

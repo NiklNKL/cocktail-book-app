@@ -1,23 +1,17 @@
 import {
   Box,
   CircularProgress,
-  Stack,
+  SwipeableDrawer,
   Button,
   IconButton,
   Typography,
-  Paper,
 } from "@mui/material";
-import IngredientBox from "./IngredientBox";
 import "./ingHover.css";
 import { useEffect, useState } from "react";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import { useIngredients } from "./IngredientServer";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import DynamicGridAllIng from "./DynamicGridAllIng";
 import DynamicGridInv from "./DynamicGridInv";
 import axios from "axios";
-import { SwipeableDrawer } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@mui/icons-material/Close";
 const useStyles = makeStyles({
@@ -30,8 +24,6 @@ const useStyles = makeStyles({
   },
 });
 export default function IngredientImages() {
-  const [pageNumber, setPageNumber] = useState(1);
-  const [currentImg, setCurrentImg] = useState(0);
   const [inventory, setInventory] = useState([]);
   const [openAll, setOpenAll] = useState(false);
   const [update, setUpdate] = useState<boolean | null>(false);
@@ -40,19 +32,13 @@ export default function IngredientImages() {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
-  };
-  const forwardPage = () => {
-    setCurrentImg(currentImg + 10), setPageNumber(pageNumber + 1);
-  };
-  const BackwardPage = () => {
-    setCurrentImg(currentImg - 10), setPageNumber(pageNumber - 1);
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   useEffect(() => {
     if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
+      sessionStorage.getItem("access_token") != undefined &&
+      sessionStorage.getItem("access_token") != null
     ) {
       axios
         .get("https://api.smartinies.recipes/inventory", {

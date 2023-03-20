@@ -108,13 +108,13 @@ export default function Images({ search }: { search: string }) {
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("access_token"),
+    Authorization: "Bearer " + sessionStorage.getItem("access_token"),
   };
 
   useEffect(() => {
     if (
-      localStorage.getItem("access_token") != undefined &&
-      localStorage.getItem("access_token") != null
+      sessionStorage.getItem("access_token") != undefined &&
+      sessionStorage.getItem("access_token") != null
     ) {
       axios
         .get("https://api.smartinies.recipes/favourites", {

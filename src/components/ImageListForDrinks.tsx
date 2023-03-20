@@ -4,7 +4,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  makeStyles,
 } from "@mui/material";
 import {
   Key,
@@ -12,8 +11,6 @@ import {
   JSXElementConstructor,
   ReactFragment,
   ReactPortal,
-  useEffect,
-  useState,
 } from "react";
 
 import "./BilderKarussel/hover.css";
