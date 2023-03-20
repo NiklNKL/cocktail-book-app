@@ -1,4 +1,6 @@
+
 import { Box, Grid, Typography } from "@mui/material";
+
 import { useState, useEffect } from "react";
 import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import { grey } from "@mui/material/colors";
@@ -13,6 +15,7 @@ interface IngredientGridProps {
   ingredientMeasure: string[];
 }
 
+
 interface Ingredient {
   cocktailImage: string;
   cocktailName: string;
@@ -25,6 +28,7 @@ interface Ingredient {
 }
 
 const ingredientStyle: React.CSSProperties = {
+
   width: "40%",
   height: "40%",
   objectFit: "cover",
@@ -36,7 +40,7 @@ const IngredientGrid: React.FC<IngredientGridProps> = ({
   ingredientMeasure,
 }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} marginTop="1%">
       {ingredientImage?.map((image, index) => (
         <Grid key={index} item xs={4}>
           <div
