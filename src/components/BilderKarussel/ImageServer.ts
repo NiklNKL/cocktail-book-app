@@ -27,7 +27,9 @@ export async function listDrinks({ search, checked }: DrinkSearchParams) {
     });
     console.log("is pressed");
   } else {
-    response = await axios.get("https://api.smartinies.recipes/randomList");
+    response = await axios.get(
+      "https://api.smartinies.recipes/randomList?seed=242"
+    );
   }
 
   await new Promise((resolve) => setTimeout(resolve, 500));
