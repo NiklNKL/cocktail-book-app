@@ -14,6 +14,8 @@ import DynamicGridInv from "./DynamicGridInv";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "../../../home_background.jpg";
+
 const useStyles = makeStyles({
   drawerPaper: {
     width: "100%",
@@ -82,11 +84,14 @@ export default function IngredientImages() {
         alignItems="center"
         display="flex"
         marginBottom="2%"
+        marginTop="2%"
       >
         {invAvailable ? (
-          <Typography variant="h3">Your Ingredients at Home:</Typography>
+          <Typography fontFamily={"Gloria Hallelujah"} variant="h3">
+            Your Ingredients at Home:
+          </Typography>
         ) : (
-          <Typography variant="h3">
+          <Typography fontFamily={"Gloria Hallelujah"} variant="h3">
             You don't have any Ingredients yet...
           </Typography>
         )}
@@ -96,7 +101,7 @@ export default function IngredientImages() {
         {invAvailable ? (
           <DynamicGridInv data={inventory} />
         ) : (
-          <Typography variant="h5">
+          <Typography fontFamily={"Gloria Hallelujah"} variant="h5">
             Start to add Ingredients by pressing the button below!
           </Typography>
         )}
@@ -129,7 +134,11 @@ export default function IngredientImages() {
             marginBottom="2%"
             width="100%"
           >
-            <Typography variant="h3" sx={{ flexGrow: 1, textAlign: "center" }}>
+            <Typography
+              fontFamily={"Gloria Hallelujah"}
+              variant="h3"
+              sx={{ flexGrow: 1, textAlign: "center" }}
+            >
               All available ingredients:
             </Typography>
             <IconButton onClick={changeView}>

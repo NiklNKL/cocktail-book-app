@@ -1,6 +1,4 @@
-
 import { Box, Grid, Typography } from "@mui/material";
-
 import { useState, useEffect } from "react";
 import AppBarElementNoSearch from "../AppBarNoSearch/AppBarElementNoSearch";
 import { grey } from "@mui/material/colors";
@@ -15,7 +13,6 @@ interface IngredientGridProps {
   ingredientMeasure: string[];
 }
 
-
 interface Ingredient {
   cocktailImage: string;
   cocktailName: string;
@@ -28,7 +25,6 @@ interface Ingredient {
 }
 
 const ingredientStyle: React.CSSProperties = {
-
   width: "40%",
   height: "40%",
   objectFit: "cover",
@@ -83,7 +79,16 @@ const paperStyle = {
 };
 
 export default function DrinkPage() {
-  const [data, setData] = useState<Ingredient>([]);
+  const [data, setData] = useState<Ingredient>({
+    cocktailImage: "",
+    cocktailName: "",
+    id: 0,
+    ingredientImages: [""],
+    ingredientMeasures: [""],
+    ingredients: [""],
+    instructions: "",
+    tags: [""],
+  });
 
   const id = window.location.pathname.split("/").pop();
 

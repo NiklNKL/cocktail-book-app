@@ -8,6 +8,7 @@ import {
   Menu,
   Link,
   Popover,
+  Typography,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import SideBar from "../AppBar/SideBar";
@@ -15,27 +16,15 @@ import CredentialComponent from "../CredentialComponents/CredentialPopup";
 
 export default function AppBarElement() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const color = () => {
@@ -67,38 +56,6 @@ export default function AppBarElement() {
     </Popover>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -119,14 +76,12 @@ export default function AppBarElement() {
               transform: "translateX(-50%)",
             }}
           >
-            <Link
-              variant="h6"
-              underline="none"
-              color="inherit"
-              href="/"
-              sx={{ fontSize: 24 }}
-            >
-              {"Smartinies Bar"}
+            <Link variant="h6" underline="none" color="inherit" href="/">
+              {
+                <Typography fontSize={45} fontFamily={"Gloria Hallelujah"}>
+                  Smartinies Bar
+                </Typography>
+              }
             </Link>
           </div>
           <Box sx={{ flexGrow: 1 }} />
@@ -145,7 +100,6 @@ export default function AppBarElement() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
     </Box>
   );

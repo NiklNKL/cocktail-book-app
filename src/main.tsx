@@ -24,7 +24,7 @@ const theme = createTheme(
       },
     },
     typography: {
-      fontFamily: ["Gloria Hallelujah", "Patrick", "WalterTurncoat"].join(","),
+      fontFamily: "Gloria Hallelujah",
     },
   },
   globalTheme
